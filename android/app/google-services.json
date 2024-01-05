@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "928560671910",
+    "project_id": "hometasks-f823d",
+    "storage_bucket": "hometasks-f823d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928560671910:android:39fcaadb92497759f41867",
+        "android_client_info": {
+          "package_name": "com.example.home_assignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlRE5yd5WtMI0whmv48JQf-073bL3WcVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
