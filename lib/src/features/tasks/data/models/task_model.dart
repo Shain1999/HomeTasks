@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hometasks/src/features/tasks/data/models/task_category.dart';
-import 'package:hometasks/src/features/tasks/data/models/task_priority.dart';
-import 'package:hometasks/src/features/tasks/data/models/task_reminders.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
+
 
 class TaskModel extends Equatable {
   final String id; //id of the task
@@ -14,7 +17,7 @@ class TaskModel extends Equatable {
   final DateTime? estimatedTime; // how much time it would take
   final DateTime? modifiedOn; // last modified
   final TaskCategory category; // the category of the task
-  final TaskCategory reccuring; // the reaccurence of a specific class (enum)
+  final TaskReccuring reccuring; // the reaccurence of a specific class (enum)
   final TaskPriority priority; // the prioriy of the task (enum)
   final TaskReminders reminders; // the reminder alert frequency
   final List<String>?
@@ -105,5 +108,26 @@ class TaskModel extends Equatable {
       'comments': comments,
       'score': score,
     };
+  }
+  Task toEntity() {
+    return Task(
+      id: id,
+      title: title,
+      description: description,
+      isCompleted: isCompleted,
+      dueDate: dueDate,
+      createdOn: createdOn,
+      modifiedOn: modifiedOn,
+      estimatedTime: estimatedTime,
+      assignedUserUids: assignedUserUids,
+      priority: priority,
+      reminders: reminders,
+      notes: notes,
+      comments: comments,
+      score: score,
+      category: category,
+      reccuring: reccuring,
+      completedByUserUids: completedByUserUids,
+    );
   }
 }

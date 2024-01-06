@@ -70,6 +70,10 @@ class _SignInViewState extends State<SignInView> {
                 ),
               );
           }
+          if (state.formStatus == FormStatus.submissionSuccess) {
+            // Navigate to the home screen on successful login
+            Navigator.of(context).pushReplacementNamed('/home');
+          }
         },
         builder: (context, state) {
           return Padding(

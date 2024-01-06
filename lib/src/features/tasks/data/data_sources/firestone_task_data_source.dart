@@ -2,33 +2,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hometasks/src/features/tasks/data/data_sources/task_remote_data_source.dart';
 import 'package:hometasks/src/features/tasks/data/models/task_model.dart';
 
-class FirestoreTaskDataSource implements TaskDataSource {
+import '../../domain/entities/get_task_params_model.dart';
+
+class FirebaseTaskDataSource implements TaskDataSource {
   final FirebaseFirestore firestore;
 
-  FirestoreTaskDataSource({required this.firestore});
+  FirebaseTaskDataSource({required this.firestore});
 
   @override
-  Future<List<TaskModel>> getTasks({
-    int? limit,
-    String? currentPageToken,
-    String? orderByField = 'createdOn',
-    bool descending = false,
-  }) async {
+  Future<List<TaskModel>> getTasks(
+    GetTaskParams params
+  ) async {
     Query query = firestore.collection('tasks');
     // Apply sorting
-    if (orderByField != null) {
-      query = query.orderBy(orderByField, descending: descending);
+    if (params!.orderByField != null) {
+      query = query.orderBy(params!.orderByField!, descending: params!.descending!);
     }
 
     //apply Pagination
-    if (currentPageToken != null) {
+    if (params!.currentPageToken != null) {
       final lastDocument =
-          await firestore.collection('tasks').doc(currentPageToken).get();
+          await firestore.collection('tasks').doc(params!.currentPageToken).get();
       query = query.startAfterDocument(lastDocument);
     }
     // Apply limit
-    if (limit != null) {
-      query = query.limit(limit);
+    if (params!.limit != null) {
+      query = query.limit(params!.limit!);
     }
 
     final tasksSnapshot = await query.get();
