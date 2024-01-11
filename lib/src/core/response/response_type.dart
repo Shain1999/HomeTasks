@@ -1,0 +1,1 @@
+enum ResultType{success,failure}
