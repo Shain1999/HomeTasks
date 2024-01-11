@@ -4,7 +4,7 @@ import 'package:hometasks/src/features/tasks/data/models/task_model.dart';
 
 // all the function used on a datasource
 abstract class TaskDataSource {
-  Future<Result<List<TaskModel>>> getTasks(GetTaskParams params);
+  Stream<List<TaskModel>> getTasksStreamAsync(GetTaskParams params);
 
   Future<Result> addTask(TaskModel task);
 

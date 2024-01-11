@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:hometasks/src/features/tasks/data/models/task_model.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
@@ -76,6 +77,47 @@ class Task extends Equatable {
   // An entity can be an object with methods, or it can be a set of
   // data structures and functions.
   bool get isEmpty => this == Task.empty;
-
+  TaskModel toModel() {
+    return TaskModel(
+      id: id,
+      title: title,
+      description: description,
+      isCompleted: isCompleted,
+      dueDate: dueDate,
+      createdOn: createdOn,
+      modifiedOn: modifiedOn,
+      estimatedTime: estimatedTime,
+      assignedUserUids: assignedUserUids,
+      priority: priority,
+      reminders: reminders,
+      notes: notes,
+      comments: comments,
+      score: score,
+      category: category,
+      reccuring: reccuring,
+      completedByUserUids: completedByUserUids,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'isCompleted': isCompleted,
+      'dueDate': dueDate?.toIso8601String(),
+      'createdOn': createdOn?.toIso8601String(),
+      'modifiedOn': modifiedOn?.toIso8601String(),
+      'estimatedTime': estimatedTime?.toIso8601String(),
+      'assignedUserUids': assignedUserUids,
+      'priority': priority.toString(), // Assuming TaskPriority is an enum
+      'reminders': reminders.toString(), // Assuming TaskReminders is an enum
+      'notes': notes,
+      'comments': comments,
+      'score': score,
+      'category': category.toString(), // Assuming TaskCategory is an enum
+      'reccuring': reccuring.toString(), // Assuming TaskReccuring is an enum
+      'completedByUserUids': completedByUserUids,
+    };
+  }
 
 }

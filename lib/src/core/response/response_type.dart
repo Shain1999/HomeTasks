@@ -1,1 +1,1 @@
-enum ResultType{success,failure}
+enum ResponseType{success,failure}

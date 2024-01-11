@@ -1,62 +1,35 @@
 import 'package:equatable/equatable.dart';
-import 'package:hometasks/src/core/response/http_code.dart';
+import 'package:hometasks/src/core/errors/error.dart';
 
 class Result<T> extends Equatable  {
   final String? message;
-  final bool isSuccess;
   final String? internalCode;
-  final HttpStatusCode externalCode;
+  final bool isSuccess;
   final T? value;
+  final ServerError? serverError;
   @override
   List<Object> get props => [];
 
   @override
-  String toString() => '$runtimeType Success $isSuccess inernalCode $internalCode externalCode $externalCode';
+  String toString() => '$runtimeType \n Success:  $isSuccess \n internalCode: $internalCode \n message: $internalCode ';
 
 
 
-  const Result._({this.message,required this.isSuccess,this.internalCode, required this.externalCode,this.value});
+  const Result._({this.message,required this.isSuccess,this.value,this.internalCode,this.serverError});
 
-
-  factory Result.created({
+  factory Result.success({
     String? message,
     String? internalCode,
     T? value,
   }) {
-    return Result._(message: message, isSuccess: true, internalCode: internalCode, externalCode:HttpStatusCode.created,value: value );
+    return Result._(message: message, isSuccess: true,value: value,internalCode: internalCode );
   }
-  factory Result.ok({
-  String? message,
-  String? internalCode,
-  T? value,
+  factory Result.failure({
+    String? message,
+    String? internalCode,
+    ServerError? serverError,
+    T? value,
   }){
-    return Result._(message: message, isSuccess: true, internalCode: internalCode, externalCode:HttpStatusCode.ok,value: value );
-  }
-  factory Result.noContent({
-    String? message,
-    String? internalCode
-  }){
-    return Result._(message: message, isSuccess: true, internalCode: internalCode, externalCode:HttpStatusCode.noContent );
-  }
-  factory Result.badRequest({
-    String? message,
-    String? internalCode
-  }){
-    return Result._(message: message, isSuccess: false, internalCode: internalCode, externalCode:HttpStatusCode.badRequest);
-  }
-  factory Result.unauthorized({
-    String? message,
-    String? internalCode}){
-    return Result._(message: message, isSuccess: false, internalCode: internalCode, externalCode:HttpStatusCode.unauthorized);
-  }
-  factory Result.internalError({
-    String? message,
-    String? internalCode}){
-    return Result._(message: message, isSuccess: false, internalCode: internalCode, externalCode:HttpStatusCode.internalServerError );
-  }
-  factory Result.notFound({
-    String? message,
-    String? internalCode}){
-    return Result._(message: message, isSuccess: false, internalCode: internalCode, externalCode:HttpStatusCode.notFound);
+    return Result._(message: message, isSuccess: false,value: value,internalCode: internalCode,serverError: serverError );
   }
 }

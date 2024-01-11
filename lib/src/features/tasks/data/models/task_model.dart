@@ -75,17 +75,17 @@ class TaskModel extends Equatable {
         description: snap['description'],
         completedByUserUids: List.from(snap['completedByUserUids']),
         assignedUserUids: List.from(snap['assignedUserUids']),
-        notes: List.from(['notes']),
+        notes: List.from(snap['notes']),
         comments: List.from(snap['comments']),
-        dueDate: snap['dueDate']?.toDate(),
-        createdOn: snap['createdOn']?.toDate(),
-        modifiedOn: snap['modifiedOn']?.toDate(),
-        estimatedTime: snap['estimatedTime']?.toDate(),
+        dueDate: DateTime.parse(snap['dueDate']),
+        createdOn: DateTime.parse(snap['createdOn']),
+        modifiedOn: DateTime.parse(snap['modifiedOn']),
+        estimatedTime: DateTime.parse(snap['estimatedTime']),
         isCompleted: snap['isCompleted'],
-        priority: snap['priority'],
-        reminders: snap['reminders'],
-        category: snap['category'],
-        reccuring: snap['reccuring'],
+        priority: TaskPriority.values[snap['priority']],
+        reminders: TaskReminders.values[snap['reminders']],
+        category: TaskCategory.values[snap['category']],
+        reccuring: TaskReccuring.values[snap['reccuring']],
         score: snap['score']);
   }
   Map<String, dynamic> toDocument() {
@@ -130,4 +130,5 @@ class TaskModel extends Equatable {
       completedByUserUids: completedByUserUids,
     );
   }
+
 }

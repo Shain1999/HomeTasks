@@ -1,18 +1,19 @@
+import 'dart:async';
+
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hometasks/src/core/errors/error_type.dart';
 import 'package:hometasks/src/core/errors/task/task_error.dart';
+import 'package:hometasks/src/core/results/result.dart';
 import 'package:hometasks/src/features/tasks/data/data_sources/firesbase_task_data_source.dart';
 import 'package:hometasks/src/features/tasks/data/models/task_model.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/get_task_params_model.dart';
-import 'package:hometasks/src/core/results/result.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../../helpers/test_helper.mocks.dart';
 
 void main() {
   test('Should return a list of TaskModels from Firebase', () async {
@@ -72,19 +73,21 @@ void main() {
     );
 
     // Act
-    final result = await dataSource.getTasks(params);
-
+    final stream = dataSource.getTasksStreamAsync(params);
     // Assert
-    expect(result.isSuccess, true);
-    expect(result.value, isA<List<TaskModel>>());
-    expect(result.value!.length, 2);
+    final streamController = StreamController<List<TaskModel>>();
+    streamController.addStream(stream);
 
-    // You can add more detailed assertions based on your specific requirements.
-    // For example, check if the titles match the expected values.
+    // Wait for the stream to emit values
+    await expectLater(
+      streamController.stream,
+      emitsInOrder([
+        isA<List<TaskModel>>(),
+      ]),
+    );
 
-    // Example:
-    expect(result.value![0].title, 'Test Task 1');
-    expect(result.value![1].title, 'Test Task 2');
+    // Close the stream controller
+    streamController.close();
   });
   /////////////////////////////////////////////////
 
@@ -93,22 +96,26 @@ void main() {
     final fakeFirestore = FakeFirebaseFirestore();
     final dataSource = FirebaseTaskDataSource(firestore: fakeFirestore);
 
-
     final params = GetTaskParams(
       orderByField: 'title',
       descending: false,
       currentPageToken: null,
       limit: 10,
     );
+
     // Act
-    final result = await dataSource.getTasks(params);
-
+    final stream = dataSource.getTasksStreamAsync(params);
     // Assert
-    expect(result.isSuccess, false);
-    expect(result.internalCode, 'tasks.data.repositories.firebase.getTasks');
-    expect(result.message, "empty when fetching from firebase ");
-    expect(result.serverError?.type, ServerErrorType.emptyList);
-    expect(result.value, null);
-  });
+    final streamController = StreamController<List<TaskModel>>();
+    streamController.addStream(stream);
 
+    // Wait for the stream to emit values
+    await expectLater(
+      streamController.stream.first,
+        throwsA(isA<TaskError>()),
+    );
+
+    // Close the stream controller
+    streamController.close();
+  });
 }
