@@ -51,6 +51,7 @@ class FirebaseTaskDataSource implements TaskDataSource {
   //   }
   // }
   //params - all the params needed for pagination see GetTaskParams Class for detailed explanation
+  @override
   Stream<List<TaskModel>> getTasksStreamAsync(GetTaskParams params) async* {
     try {
       Query query = firestore.collection('tasks');

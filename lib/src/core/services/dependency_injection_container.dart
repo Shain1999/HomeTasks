@@ -12,7 +12,9 @@ import 'package:hometasks/src/features/tasks/domain/usecases/add_task_use_case.d
 import 'package:hometasks/src/features/tasks/domain/usecases/delete_task_use_case.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/get_task_by_id_use_case.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/get_tasks_use_case.dart';
+import 'package:hometasks/src/features/tasks/domain/usecases/tasks_use_cases.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_case.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/task_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -25,4 +27,10 @@ Future<void> initDependencies() async{
   sl.registerLazySingleton(() => DeleteTaskUseCase( repository:sl<DomainFirebaseTaskRepository>()));
   sl.registerLazySingleton(() => GetTasksUseCase( repository:sl<DomainFirebaseTaskRepository>()));
   sl.registerLazySingleton(() => UpdateTaskUseCase( repository:sl<DomainFirebaseTaskRepository>()));
+  sl.registerLazySingleton(() => TaskUseCases( updateTask: sl<UpdateTaskUseCase>(),getTaskById: sl<GetTaskByIdUseCase>(),
+      deleteTask: sl<DeleteTaskUseCase>(),getTasks: sl<GetTasksUseCase>(),addTask: sl<AddTaskUseCase>()));
+  sl.registerFactory(() => TaskViewBloc(
+    taskRepository: sl<DomainFirebaseTaskRepository>(),
+    taskUseCases: sl<TaskUseCases>(),
+  ));
 }

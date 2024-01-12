@@ -126,6 +126,7 @@ class TaskViewBloc extends Bloc<TaskEvent,TasksViewState> {
   @override
   Future<void> close() {
     // Close any resources here
+
     // Close the stream
     return super.close();
   }
