@@ -28,10 +28,10 @@ class OnUpdateTask extends TaskEvent {
   final String taskId;
   final Map<String, dynamic> updatedFields;
   final Task? taskToUpdate;
-  const OnUpdateTask(this.taskId, this.updatedFields,this.taskToUpdate);
+  const OnUpdateTask({required this.taskId,  required this.updatedFields,this.taskToUpdate});
 
   @override
-  List<Object?> get props => [taskId, updatedFields];
+  List<Object?> get props => [taskId, updatedFields,taskToUpdate];
 }
 
 class OnDeleteTask extends TaskEvent {
