@@ -123,6 +123,13 @@ class TaskViewBloc extends Bloc<TaskEvent,TasksViewState> {
     on<OnTasksViewFilterChanged>(_onFilterChanged);
   }
 
+  @override
+  Future<void> close() {
+    // Close any resources here
+    // Close the stream
+    return super.close();
+  }
+
   final DomainFirebaseTaskRepository _taskRepository;
   final TaskUseCases _taskUseCases;
 
