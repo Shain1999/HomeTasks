@@ -6,34 +6,34 @@ import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart'
 import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/update_task_params.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/task_event.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/filters/task_view_filter.dart';
 import 'package:mockito/mockito.dart';
 
 void main(){
 
   const GetTaskParams params = GetTaskParams();
-  const List<Task> testTaskList = [
-    Task(id: '158935489',
+   List<Task> testTaskList = [
+    Task(
         title: 'task1',
         priority: TaskPriority.low,
         reminders: TaskReminders.weekly,
         category: TaskCategory.cleaning,
         reccuring: TaskReccuring.weekly),
-    Task(id: '158935terre32##489',
+    Task(
         title: 'task2',
         priority: TaskPriority.medium,
         reminders: TaskReminders.weekly,
         category: TaskCategory.shopping,
         reccuring: TaskReccuring.daily),
-    Task(id: '15re32##489',
+    Task(
         title: 'task3',
         priority: TaskPriority.medium,
         reminders: TaskReminders.daily,
         category: TaskCategory.shopping,
         reccuring: TaskReccuring.mountly),
   ];
-  const Task testTask = Task(id: '15re32##489',
+   Task testTask = Task(
       title: 'task3',
       priority: TaskPriority.medium,
       reminders: TaskReminders.daily,
@@ -46,14 +46,14 @@ void main(){
     group('OnGetTasks', () {
       test('supports value equality', () {
         expect(
-          const OnGetTasks(params),
-          equals(const OnGetTasks(params)),
+          const OnGetTasks(),
+          equals(const OnGetTasks()),
         );
       });
       test('props are correct', () {
         expect(
-          const OnGetTasks(params).props,
-          equals(<Object?>[params]),
+          const OnGetTasks().props,
+          equals(<Object?>[]),
         );
       });
     });
@@ -61,13 +61,13 @@ void main(){
     group('OnAddTask', () {
       test('supports value equality', () {
         expect(
-          const OnAddTask(testTask),
-          equals(const OnAddTask(testTask)),
+           OnAddTask(testTask),
+          equals(OnAddTask(testTask)),
         );
       });
       test('props are correct', () {
         expect(
-          const OnAddTask(testTask).props,
+           OnAddTask(testTask).props,
           equals(<Object?>[testTask]),
         );
       });

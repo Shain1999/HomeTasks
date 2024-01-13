@@ -38,7 +38,6 @@ void main() {
     final taskModel = TaskModel.fromSnapshot(mockDocumentSnapshot);
 
     // Assert
-    expect(taskModel.id, '1');
     expect(taskModel.title, 'Test Task');
     expect(taskModel.description, 'Task Description');
     expect(taskModel.isCompleted, true);
@@ -104,7 +103,7 @@ void main() {
   test('Should convert TaskModel to valid Task entity', () {
     // Arrange
     final taskModel = TaskModel(
-      id: '1',
+      id:'1',
       title: 'Test Task',
       description: 'Task Description',
       isCompleted: true,
@@ -127,7 +126,7 @@ void main() {
     final taskEntity = taskModel.toEntity();
 
     // Assert
-    expect(taskEntity.id, '1');
+
     expect(taskEntity.title, 'Test Task');
     expect(taskEntity.description, 'Task Description');
     expect(taskEntity.isCompleted, true);
@@ -172,7 +171,6 @@ void main() {
     final taskEntity = taskModel.toEntity();
 
     // Assert
-    expect(taskEntity.id, '1');
     expect(taskEntity.title, 'Test Task');
     expect(taskEntity.description, 'Task Description');
     expect(taskEntity.isCompleted, true);

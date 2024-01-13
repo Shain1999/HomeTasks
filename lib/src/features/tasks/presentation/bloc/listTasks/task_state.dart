@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hometasks/src/core/response/response.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/get_task_params_model.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
 import 'package:hometasks/src/features/tasks/presentation/filters/task_view_filter.dart';
 
@@ -100,12 +101,14 @@ final class TasksViewState extends Equatable {
   const TasksViewState({
     this.status = TasksViewStatus.initial,
     this.tasks = const [],
+    this.getTasksParams = const GetTaskParams(),
     this.filter = TaskViewFilter.all,
     this.lastDeletedTask,
     this.errorMessage
   });
 
   final TasksViewStatus status;
+  final GetTaskParams getTasksParams;
   final String? errorMessage;
   final List<Task> tasks;
   final TaskViewFilter filter;

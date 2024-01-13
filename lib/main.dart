@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hometasks/src/core/routes/router.dart';
+import 'package:hometasks/src/core/services/dependency_injection_container.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_bloc.dart';
 import 'firebase_options.dart';
 
 import 'src/core/services/dependency_injection_container.dart' as di;
@@ -30,10 +33,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Home Tasks',
-      theme: ThemeData.light(useMaterial3: true),
-      routerConfig: createRouter(context),
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => sl.get<TaskListBloc>(),)],
+      child: MaterialApp.router(
+        title: 'Home Tasks',
+        theme: ThemeData.light(useMaterial3: true),
+        routerConfig: createRouter(context),
+      ),
     );
   }
 }

@@ -4,8 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hometasks/src/core/services/dependency_injection_container.dart';
 import 'package:hometasks/src/features/auth/presentation/screens/sign_in_screen.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/task_bloc.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
+import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_case.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/editTask/task_edit_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/pages/add_task_page.dart';
 import 'package:hometasks/src/features/tasks/presentation/pages/home_page.dart';
+import 'package:hometasks/src/core/services/dependency_injection_container.dart';
 
 
 // GoRouter configuration
@@ -13,29 +18,37 @@ GoRouter createRouter(BuildContext context) {
   final currentUser = FirebaseAuth.instance.currentUser;
 
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/home',
     navigatorKey: GlobalKey<NavigatorState>(),
+
     routes: [
       GoRoute(
         name: 'home',
         path: '/home',
-        builder: (context, state) => BlocProvider(create: (context) => sl.get<TaskViewBloc>(),child: HomeScreen(),) ,
+        builder: (context, state) => HomeScreen(),
+
       ),
       GoRoute(
         name: 'login',
         path: '/login',
         builder: (context, state) => const SignInScreen(),
       ),
+      GoRoute(
+          name: 'addTask',
+          path: '/addTask',
+          builder: (context, state) =>
+              BlocProvider(create: (context) =>
+                  TaskEditBloc(
+                      updateTaskUseCase: sl.get<UpdateTaskUseCase>()),
+                child: const AddTaskPage(),))
     ],
     redirect: (context, state) {
       // You can still access currentUser here if needed
       if (currentUser == null) {
         // Redirect to login if user is not signed in
         return '/login';
-      } else {
-        // Redirect to home if user is signed in
-        return '/home';
       }
     },
+
   );
 }

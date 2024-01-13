@@ -4,6 +4,7 @@ import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart'
 import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
+import 'package:uuid/uuid.dart';
 
 class Task extends Equatable {
   final String id; //id of the task
@@ -26,8 +27,8 @@ class Task extends Equatable {
   final List<String>? comments; // comments on the task
   final int? score; // the score of the task
 
-  const Task(
-      {required this.id,
+   Task(
+      { String? id,
         required this.title,
         this.description,
         this.completedByUserUids,
@@ -43,7 +44,7 @@ class Task extends Equatable {
         this.comments,
         this.score,
         required this.category,
-        required this.reccuring});
+        required this.reccuring}):id = id ?? _generateUuid();
 
   @override
   List<Object?> get props => [
@@ -65,15 +66,24 @@ class Task extends Equatable {
     score,
     comments
   ];
-  static const Task empty = Task(
-    id: '',
+  static  Task empty = Task(
     title: '',
     isCompleted: false,
-    priority: TaskPriority.none, // Provide appropriate default value
-    reminders: TaskReminders.none, // Provide appropriate default value
-    category: TaskCategory.none, // Provide appropriate default value
-    reccuring: TaskReccuring.none, // Provide appropriate default value
+    priority: TaskPriority.none,
+    reminders: TaskReminders.none,
+    category: TaskCategory.none,
+    reccuring: TaskReccuring.none,
   );
+  factory Task.initial() {
+    return Task(
+      title: '', // Provide appropriate default value
+      isCompleted: false,
+      priority: TaskPriority.none,
+      reminders: TaskReminders.none,
+      category: TaskCategory.none,
+      reccuring: TaskReccuring.none,
+    );
+  }
   // An entity can be an object with methods, or it can be a set of
   // data structures and functions.
   bool get isEmpty => this == Task.empty;
@@ -118,6 +128,30 @@ class Task extends Equatable {
       'reccuring': reccuring.toString(), // Assuming TaskReccuring is an enum
       'completedByUserUids': completedByUserUids,
     };
+  }
+  factory Task.createTaskFromMap(Map<String, dynamic> updatedFields, Task task) {
+    return Task(
+      title: updatedFields['title'] ?? task.title,
+      description: updatedFields['description'] ?? task.description,
+      isCompleted: updatedFields['isCompleted'] ?? task.isCompleted,
+      dueDate: updatedFields['dueDate'] ?? task.dueDate,
+      createdOn: updatedFields['createdOn'] ?? task.createdOn,
+      modifiedOn: updatedFields['modifiedOn'] ?? task.modifiedOn,
+      estimatedTime: updatedFields['estimatedTime'] ?? task.estimatedTime,
+      assignedUserUids: updatedFields['assignedUserUids'] ?? task.assignedUserUids,
+      priority: updatedFields['priority'] ?? task.priority,
+      reminders: updatedFields['reminders'] ?? task.reminders,
+      notes: updatedFields['notes'] ?? task.notes,
+      comments: updatedFields['comments'] ?? task.comments,
+      score: updatedFields['score'] ?? task.score,
+      category: updatedFields['category'] ?? task.category,
+      reccuring: updatedFields['reccuring'] ?? task.reccuring,
+      completedByUserUids: updatedFields['completedByUserUids'] ?? task.completedByUserUids,
+    );
+  }
+
+  static String _generateUuid() {
+    return Uuid().v4();
   }
 
 }

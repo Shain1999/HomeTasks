@@ -70,24 +70,26 @@ class TaskModel extends Equatable {
   factory TaskModel.fromSnapshot(DocumentSnapshot snapshot) {
     var snap = snapshot.data() as Map<String, dynamic>;
     return TaskModel(
-        id: snap['id'],
-        title: snap['title'],
-        description: snap['description'],
-        completedByUserUids: List.from(snap['completedByUserUids']),
-        assignedUserUids: List.from(snap['assignedUserUids']),
-        notes: List.from(snap['notes']),
-        comments: List.from(snap['comments']),
-        dueDate: DateTime.parse(snap['dueDate']),
-        createdOn: DateTime.parse(snap['createdOn']),
-        modifiedOn: DateTime.parse(snap['modifiedOn']),
-        estimatedTime: DateTime.parse(snap['estimatedTime']),
-        isCompleted: snap['isCompleted'],
-        priority: TaskPriority.values[snap['priority']],
-        reminders: TaskReminders.values[snap['reminders']],
-        category: TaskCategory.values[snap['category']],
-        reccuring: TaskReccuring.values[snap['reccuring']],
-        score: snap['score']);
+      id: snap['id'] ?? '',
+      title: snap['title'] ?? '',
+      description: snap['description'] ?? '',
+      completedByUserUids: snap['completedByUserUids'] != null ? List.from(snap['completedByUserUids']) : [],
+      assignedUserUids: snap['assignedUserUids'] != null ? List.from(snap['assignedUserUids']) : [],
+      notes: snap['notes'] != null ? List.from(snap['notes']) : [],
+      comments: snap['comments'] != null ? List.from(snap['comments']) : [],
+      dueDate: snap['dueDate'] != null ? DateTime.parse(snap['dueDate']) : DateTime.now(),
+      createdOn: snap['createdOn'] != null ? DateTime.parse(snap['createdOn']) : DateTime.now(),
+      modifiedOn: snap['modifiedOn'] != null ? DateTime.parse(snap['modifiedOn']) : DateTime.now(),
+      estimatedTime: snap['estimatedTime'] != null ? DateTime.parse(snap['estimatedTime']) : DateTime.now(),
+      isCompleted: snap['isCompleted'] ?? false,
+      priority: snap['priority'] != null ? TaskPriority.values[snap['priority']] : TaskPriority.none,
+      reminders: snap['reminders'] != null ? TaskReminders.values[snap['reminders']] : TaskReminders.none,
+      category: snap['category'] != null ? TaskCategory.values[snap['category']] : TaskCategory.none,
+      reccuring: snap['reccuring'] != null ? TaskReccuring.values[snap['reccuring']] : TaskReccuring.none,
+      score: snap['score'] ?? 0,
+    );
   }
+
   Map<String, dynamic> toDocument() {
     return {
       'id': id,

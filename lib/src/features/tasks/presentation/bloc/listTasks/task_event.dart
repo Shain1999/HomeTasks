@@ -10,11 +10,11 @@ abstract class TaskEvent extends Equatable{
   List<Object?> get props => [];
 }
 class OnGetTasks extends TaskEvent{
-  final GetTaskParams params;
-  const OnGetTasks(this.params);
+
+  const OnGetTasks();
 
   @override
-  List<Object?> get props => [params];
+  List<Object?> get props => [];
 }
 class OnAddTask extends TaskEvent {
   final Task task;

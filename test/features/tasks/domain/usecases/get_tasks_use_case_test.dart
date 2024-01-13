@@ -22,10 +22,10 @@ void main(){
     getTasksUseCase=GetTasksUseCase(repository: mockDomainFirebaseTaskRepository);
   });
 
-  const List<Task> testTaskList =[
-    Task(id: '158935489', title: 'task1', priority: TaskPriority.low, reminders: TaskReminders.weekly, category: TaskCategory.cleaning, reccuring: TaskReccuring.weekly),
-    Task(id: '158935terre32##489', title: 'task2', priority: TaskPriority.medium, reminders: TaskReminders.weekly, category: TaskCategory.shopping, reccuring: TaskReccuring.daily),
-    Task(id: '15re32##489', title: 'task3', priority: TaskPriority.medium, reminders: TaskReminders.daily, category: TaskCategory.shopping, reccuring: TaskReccuring.mountly),
+  List<Task> testTaskList =[
+    Task( title: 'task1', priority: TaskPriority.low, reminders: TaskReminders.weekly, category: TaskCategory.cleaning, reccuring: TaskReccuring.weekly),
+    Task( title: 'task2', priority: TaskPriority.medium, reminders: TaskReminders.weekly, category: TaskCategory.shopping, reccuring: TaskReccuring.daily),
+    Task( title: 'task3', priority: TaskPriority.medium, reminders: TaskReminders.daily, category: TaskCategory.shopping, reccuring: TaskReccuring.mountly),
   ];
   const testGetTaskParams = GetTaskParams();
   test('should get tasks from the repository', () async {
