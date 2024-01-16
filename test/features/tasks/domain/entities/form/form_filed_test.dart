@@ -1,16 +1,19 @@
 import 'dart:async';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:hometasks/src/features/tasks/domain/validators/description_validator.dart';
 import 'package:hometasks/src/features/tasks/domain/validators/title_validator.dart';
-import 'package:test/test.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/form/form_field.dart';
 import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/description/description.dart' as Description;
+
 
 void main() {
   group('FormField Tests', () {
-    late FormField<String, Title> titleField;
+    late FormFieldController<String, Title> titleField;
 
     setUp(() {
-      titleField = FormField<String, Title>(
-        transformer: createTitleTransformer(),
+      titleField = FormFieldController<String, Title>(
+        validateFunction: validateStringToTitle,
         fieldName: 'title',
       );
     });
@@ -19,63 +22,68 @@ void main() {
       titleField.dispose();
     });
 
-    test('Initial state', () {
-      expect(titleField.value, isNull);
-      expect(titleField.status, equals(FieldStatus.empty));
+    test('FormField Test Title', () async {
+      // Arrange
+      List<FormFieldModel<Title>> successEventsEmitted=[];
+      List<String> errorEvents=[];
+      final testTitle = 'MockedTitle';
+      titleField.valueStream.listen((event) {
+          successEventsEmitted.add(event);
+          expect(successEventsEmitted, [isA<FormFieldModel<Title>>()]);
+          expect(successEventsEmitted.length,1 );
+          expect(titleField.value, isA<Title>() );
+
+      },onError: (error){
+        errorEvents.add(error.toString());
+      });
+      // Act
+      titleField.changeValue(testTitle);
+
+      // Introduce a delay to allow the stream to emit events
+      await Future.delayed(Duration(milliseconds: 500));
+      // Dispose the formField to avoid memory leaks
       titleField.dispose();
     });
-
-    test('Valid input', () async {
-      const validTitle = 'Valid Title';
-      titleField.changeValue(validTitle);
-
-      // Listen for the stream events
-      final List<Title> emittedValues = [];
-      final List<String?> emittedErrors = [];
-
-      titleField.valueStream.listen(
-            (value) {
-          emittedValues.add(value);
-        },
-        onError: (error) {
-          emittedErrors.add(error);
-        },
-        onDone: () {
-          // Verify the emitted values
-          expect(emittedValues, [isA<Title>()]);
-
-          // Verify the status and error of the form field
-        },
+    test('Validating description field', () {
+      final descriptionField = FormFieldController<String, Description.Description>(
+        validateFunction: validateStringToDescription,
+        fieldName: 'description',
       );
-      // Wait for the stream to complete (onDone)
-      titleField.dispose();
+      List<FormFieldModel<Description.Description>> successEventsEmitted=[];
+      List<String> errorEvents=[];
+      descriptionField.valueStream.listen((event) {
+        successEventsEmitted.add(event);
+        expect(successEventsEmitted, [isA<FormFieldModel<Description.Description>>()]);
+        expect(successEventsEmitted.length,1 );
+        expect(descriptionField.value, isA<Description.Description>() );
+
+      },onError: (error){
+        errorEvents.add(error);
+
+      });
+      // Change the value to a valid description
+      descriptionField.changeValue('Valid Description');
+
     });
-    test('inValid input', () async {
-      const invalidTitle = '';
-      titleField.changeValue(invalidTitle);
-
-      // Listen for the stream events
-      final List<Title> emittedValues = [];
-      final List<String?> emittedErrors = [];
-
-      titleField.valueStream.listen(
-            (value) {
-          emittedValues.add(value);
-        },
-        onError: (error) {
-          emittedErrors.add(error);
-        },
-        onDone: () {
-          // Verify the emitted values
-          // expect(emittedValues, [isA<Title>()]);
-
-          // Verify the status and error of the form field
-          expect(emittedErrors, [isA<String>()]);
-        },
+    test('inValidating description field', () {
+      final descriptionField = FormFieldController<String, Description.Description>(
+        validateFunction: validateStringToDescription,
+        fieldName: 'description',
       );
-      // Wait for the stream to complete (onDone)
-      titleField.dispose();
-    });
+      List<FormFieldModel<Description.Description>> successEventsEmitted=[];
+      List<String> errorEvents=[];
+      descriptionField.valueStream.listen((event) {
+        successEventsEmitted.add(event);
 
+
+      },onError: (error){
+        errorEvents.add(error);
+        expect(errorEvents, [isA<String>()]);
+        expect(errorEvents.length,1 );
+      });
+      // Change the value to a valid description
+      descriptionField.changeValue('');
+
+    });
   });
 }

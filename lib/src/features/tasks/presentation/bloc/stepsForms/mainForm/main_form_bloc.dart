@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
+import 'package:hometasks/src/features/tasks/domain/usecases/add_task_use_case.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_bloc.dart';
@@ -13,6 +15,7 @@ class MainFormBloc extends Bloc<MainFormEvent, MainFormState> {
   final FirstStepBloc firstStepBloc;
   final SecondStepBloc secondStepBloc;
   final ThirdStepBloc thirdStepBloc;
+  final AddTaskUseCase _addTaskUseCase;
 
   StreamSubscription? firstStepSubscription;
   StreamSubscription? secondStepSubscription;
@@ -22,7 +25,9 @@ class MainFormBloc extends Bloc<MainFormEvent, MainFormState> {
     required this.firstStepBloc,
     required this.secondStepBloc,
     required this.thirdStepBloc,
-  }) :super(const MainFormState()) {
+    required AddTaskUseCase addTaskUseCase,
+  }):
+  _addTaskUseCase=addTaskUseCase, super(const MainFormState()) {
     on<OnInitEvent>(OnInitFunc);
     on<OnFormSubmitEvent>(OnFormSubmitFunc);
     on<OnFormSubmitSuccess>(OnFormSubmitSuccessFunc);
@@ -66,16 +71,31 @@ class MainFormBloc extends Bloc<MainFormEvent, MainFormState> {
   Future<void> OnFormSubmitFunc(OnFormSubmitEvent event,
       Emitter<MainFormState> emit) async {
     emit(state.copyWith(status: () => MainFormStatus.loading));
-    add(OnFormSubmitSuccess());
+    Map<String, dynamic> formData = collectFormData(firstStepBloc,secondStepBloc,thirdStepBloc);
+    final Task taskToAdd = Task.createTaskFromMap(formData);
+    final response = await _addTaskUseCase.handle(taskToAdd);
+    if(!response.isSuccess)
+    {
+      emit(state.copyWith(status: ()=>MainFormStatus.failure,errorMessage: response.message));
+      return;
+    }
+    emit(state.copyWith(status: ()=>MainFormStatus.success));
+    add(const OnFormSubmitSuccess());
   }
+
+
   Future<void> OnFormSubmitSuccessFunc(OnFormSubmitSuccess event,
       Emitter<MainFormState> emit) async {
     emit(state.copyWith(status: () => MainFormStatus.success));
   }
+
+
   Future<void> OnFormSubmitFailureFunc(OnFormSubmitFailure event,
       Emitter<MainFormState> emit) async {
     emit(state.copyWith(status: () => MainFormStatus.success));
   }
+
+
   Future<void> OnStepSuccessFunc(OnStepSuccess event,
       Emitter<MainFormState> emit) async {
     switch (event.step) {
@@ -90,8 +110,19 @@ class MainFormBloc extends Bloc<MainFormEvent, MainFormState> {
       case CurrentStep.step3:
       // Handle completion of the final step
       // You might want to dispatch additional events or update the state accordingly
-        add(OnFormSubmitEvent());
+        add(const OnFormSubmitEvent());
         break;
     }
+  }
+  Map<String,dynamic> collectFormData (FirstStepBloc firstStepBloc,SecondStepBloc secondStepBloc,ThirdStepBloc thirdStepBloc){
+    Map<String, dynamic> formData = {};
+    // Map<String,dynamic> firstStepValuesMap = firstStepBloc.state.toMap();
+    // Map<String,dynamic> secondStepValuesMap = secondStepBloc.state.toMap();
+    // Map<String,dynamic> thirdStepValuesMap = thirdStepBloc.state.toMap();
+    formData.addAll(firstStepBloc.state.getCurrentValuesToMap());
+    formData.addAll(secondStepBloc.state.getCurrentValuesToMap());
+    formData.addAll(thirdStepBloc.state.getCurrentValuesToMap());
+    return formData;
+
   }
 }

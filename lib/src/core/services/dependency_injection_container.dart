@@ -17,28 +17,56 @@ import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_cas
 import 'package:hometasks/src/features/tasks/presentation/bloc/addTask/task_add_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/editTask/task_edit_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step2form/second_step_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step3form/third_step_bloc.dart';
 
 final sl = GetIt.instance;
 
-Future<void> initDependencies() async{
-  sl.registerLazySingleton<AuthRepository>(()=>AuthRepositoryImpl(remoteDataSource: AuthRemoteDataSourceFirebase(), localDataSource: AuthLocalDataSource()));
-  sl.registerLazySingleton<TaskDataSource>(() => FirebaseTaskDataSource(firestore: FirebaseFirestore.instance));
-  sl.registerLazySingleton<DomainFirebaseTaskRepository>(() => DataFirebaseTaskRepositoryImpl(sl<TaskDataSource>()));
-  sl.registerLazySingleton<GetTaskByIdUseCase>(() => GetTaskByIdUseCase( repository:sl<DomainFirebaseTaskRepository>()));
-  sl.registerLazySingleton<AddTaskUseCase>(() => AddTaskUseCase( repository:sl<DomainFirebaseTaskRepository>()));
-  sl.registerLazySingleton<DeleteTaskUseCase>(() => DeleteTaskUseCase( repository:sl<DomainFirebaseTaskRepository>()));
-  sl.registerLazySingleton<GetTasksUseCase>(() => GetTasksUseCase( repository:sl<DomainFirebaseTaskRepository>()));
-  sl.registerLazySingleton<UpdateTaskUseCase>(() => UpdateTaskUseCase( repository:sl<DomainFirebaseTaskRepository>()));
-  sl.registerLazySingleton<TaskUseCases>(() => TaskUseCases( updateTask: sl<UpdateTaskUseCase>(),getTaskById: sl<GetTaskByIdUseCase>(),
-      deleteTask: sl<DeleteTaskUseCase>(),getTasks: sl<GetTasksUseCase>(),addTask: sl<AddTaskUseCase>()));
-  sl.registerFactory<TaskListBloc>(() => TaskListBloc(
-    taskUseCases: sl<TaskUseCases>(),
-  ));
+Future<void> initDependencies() async {
+  sl.registerLazySingleton<AuthRepository>(() =>
+      AuthRepositoryImpl(remoteDataSource: AuthRemoteDataSourceFirebase(),
+          localDataSource: AuthLocalDataSource()));
+  sl.registerLazySingleton<TaskDataSource>(() =>
+      FirebaseTaskDataSource(firestore: FirebaseFirestore.instance));
+  sl.registerLazySingleton<DomainFirebaseTaskRepository>(() =>
+      DataFirebaseTaskRepositoryImpl(sl<TaskDataSource>()));
+  sl.registerLazySingleton<GetTaskByIdUseCase>(() =>
+      GetTaskByIdUseCase(repository: sl<DomainFirebaseTaskRepository>()));
+  sl.registerLazySingleton<AddTaskUseCase>(() =>
+      AddTaskUseCase(repository: sl<DomainFirebaseTaskRepository>()));
+  sl.registerLazySingleton<DeleteTaskUseCase>(() =>
+      DeleteTaskUseCase(repository: sl<DomainFirebaseTaskRepository>()));
+  sl.registerLazySingleton<GetTasksUseCase>(() =>
+      GetTasksUseCase(repository: sl<DomainFirebaseTaskRepository>()));
+  sl.registerLazySingleton<UpdateTaskUseCase>(() =>
+      UpdateTaskUseCase(repository: sl<DomainFirebaseTaskRepository>()));
+  sl.registerLazySingleton<TaskUseCases>(() =>
+      TaskUseCases(updateTask: sl<UpdateTaskUseCase>(),
+          getTaskById: sl<GetTaskByIdUseCase>(),
+          deleteTask: sl<DeleteTaskUseCase>(),
+          getTasks: sl<GetTasksUseCase>(),
+          addTask: sl<AddTaskUseCase>()));
+  sl.registerFactory<TaskListBloc>(() =>
+      TaskListBloc(
+        taskUseCases: sl<TaskUseCases>(),
+      ));
+  sl.registerFactory<FirstStepBloc>(() => FirstStepBloc());
+  sl.registerFactory<SecondStepBloc>(() => SecondStepBloc());
+  sl.registerFactory<ThirdStepBloc>(() => ThirdStepBloc());
+  sl.registerFactory<MainFormBloc>(() =>
+      MainFormBloc(addTaskUseCase: sl<AddTaskUseCase>(),
+          firstStepBloc: sl<FirstStepBloc>(),
+          secondStepBloc: sl<SecondStepBloc>(),
+          thirdStepBloc: sl<ThirdStepBloc>()));
 
-  sl.registerFactory(() => TaskEditBloc(
-    updateTaskUseCase: sl<UpdateTaskUseCase>(),
-  ));
-  sl.registerFactory(() => TaskAddBloc(
-    addTaskUseCase: sl<AddTaskUseCase>(),
-  ));
+  sl.registerFactory<TaskEditBloc>(() =>
+      TaskEditBloc(
+        updateTaskUseCase: sl<UpdateTaskUseCase>(),
+      ));
+  sl.registerFactory<TaskAddBloc>(() =>
+      TaskAddBloc(
+        addTaskUseCase: sl<AddTaskUseCase>(),
+      ));
 }

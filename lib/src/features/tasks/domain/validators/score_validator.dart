@@ -1,14 +1,15 @@
+// Create a transformer for the Score
 import 'dart:async';
 import 'package:hometasks/src/features/tasks/domain/entities/form/form_field.dart';
-import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/score/score.dart';
 
-StreamTransformer<String, FormFieldModel<Title>> createTitleTransformer() {
-  return StreamTransformer<String, FormFieldModel<Title>>.fromHandlers(
-    handleData: (title, sink) {
+StreamTransformer<int, FormFieldModel<Score>> createScoreTransformer() {
+  return StreamTransformer<int,  FormFieldModel<Score>>.fromHandlers(
+    handleData: (score, sink) {
       try {
-        final titleObject = Title.create(title);
+        final scoreObject = Score.create(score);
         sink.add(FormFieldModel(
-          value: titleObject,
+          value: scoreObject,
           status: FieldStatus.valid,
           errorMessage: '',
         ));
@@ -17,12 +18,12 @@ StreamTransformer<String, FormFieldModel<Title>> createTitleTransformer() {
         sink.addError(FormFieldModel(
           value: null, // or any default value you want to use in case of error
           status: FieldStatus.invalid,
-          errorMessage: 'Invalid title: $error',
+          errorMessage: 'Invalid Score: $error',
         ));
       }
     },
   );
 }
-Title validateStringToTitle(String arg){
-    return Title.create(arg);
+Score validateIntToScore(int arg){
+  return Score.create(arg);
 }

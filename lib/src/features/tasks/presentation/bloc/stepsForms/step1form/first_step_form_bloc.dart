@@ -5,7 +5,7 @@ import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFo
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_state.dart';
 
 class FirstStepBloc extends Bloc<MainFormEvent,FirstStepFormState> implements IChildStepFormFunctions{
-  FirstStepBloc() :super(FirstStepFormState.initial()){
+  FirstStepBloc() :super(FirstStepFormState()){
     on<OnStepSubmit>(OnStepSubmitFunc);
     on<OnStepFailure>(OnStepFailureFunc);
     on<OnStepSuccess>(OnStepSuccessFunc);

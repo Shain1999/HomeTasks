@@ -1,6 +1,8 @@
 import 'dart:async';
-StreamTransformer<List<String>, List<String>> createArrayTransformer() {
-  return StreamTransformer<List<String>, List<String>>.fromHandlers(
+
+import 'package:hometasks/src/features/tasks/domain/entities/form/form_field.dart';
+StreamTransformer<List<String>, FormFieldModel<List<String>>> createArrayTransformer() {
+  return StreamTransformer<List<String>, FormFieldModel<List<String>>>.fromHandlers(
     handleData: (values, sink) {
       final List<String> validValues = [];
       for (var value in values) {
@@ -10,10 +12,21 @@ StreamTransformer<List<String>, List<String>> createArrayTransformer() {
           validValues.add(value);
         } catch (error) {
           // Handle validation errors and add them to the sink
-          sink.addError('Invalid value: $error');
+          sink.addError(FormFieldModel(
+            value: null, // or any default value you want to use in case of error
+            status: FieldStatus.invalid,
+            errorMessage: 'Invalid ${value.runtimeType}: $error',
+          ));
         }
       }
-      sink.add(validValues);
+      sink.add(FormFieldModel(
+        value: validValues,
+        status: FieldStatus.valid,
+        errorMessage: '',
+      ));
     },
   );
+}
+List<String> validateStringList(List<String> args){
+  return args;
 }

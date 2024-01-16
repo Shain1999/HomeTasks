@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hometasks/src/core/routes/router.dart';
+import 'package:hometasks/src/core/services/bloc_observer.dart';
 import 'package:hometasks/src/core/services/dependency_injection_container.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
 import 'firebase_options.dart';
@@ -15,6 +16,7 @@ typedef AppBuilder = Future<Widget> Function();
 
 Future<void> bootstrap(AppBuilder builder) async {
   WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer=BlocObserverWrapper();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await di.initDependencies();
   runApp(await builder());

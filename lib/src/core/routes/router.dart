@@ -9,9 +9,11 @@ import 'package:hometasks/src/features/tasks/domain/usecases/add_task_use_case.d
 import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_case.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/editTask/task_edit_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/pages/add_task_page.dart';
 import 'package:hometasks/src/features/tasks/presentation/pages/home_page.dart';
 import 'package:hometasks/src/core/services/dependency_injection_container.dart';
+import 'package:hometasks/src/features/tasks/presentation/pages/stepper_form_page.dart';
 
 
 // GoRouter configuration
@@ -39,10 +41,9 @@ GoRouter createRouter(BuildContext context) {
           path: '/addTask',
           builder: (context, state) =>
               BlocProvider(create: (context) =>
-                  TaskEditBloc(
-
-                      updateTaskUseCase: sl.get<UpdateTaskUseCase>()),
-                child: const AddTaskPage(),))
+                  FirstStepBloc(
+                  ),
+                child: const StepperFormPage(),))
     ],
     redirect: (context, state) {
       // You can still access currentUser here if needed

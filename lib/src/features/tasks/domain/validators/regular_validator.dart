@@ -1,14 +1,14 @@
+// Create a transformer for the Genereic Types
 import 'dart:async';
-import 'package:hometasks/src/features/tasks/domain/entities/form/form_field.dart';
-import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart';
 
-StreamTransformer<String, FormFieldModel<Title>> createTitleTransformer() {
-  return StreamTransformer<String, FormFieldModel<Title>>.fromHandlers(
-    handleData: (title, sink) {
+import 'package:hometasks/src/features/tasks/domain/entities/form/form_field.dart';
+
+StreamTransformer<T, FormFieldModel<T>> createGenericTransformer<T>() {
+  return StreamTransformer<T, FormFieldModel<T>>.fromHandlers(
+    handleData: (value, sink) {
       try {
-        final titleObject = Title.create(title);
         sink.add(FormFieldModel(
-          value: titleObject,
+          value: value,
           status: FieldStatus.valid,
           errorMessage: '',
         ));
@@ -17,12 +17,12 @@ StreamTransformer<String, FormFieldModel<Title>> createTitleTransformer() {
         sink.addError(FormFieldModel(
           value: null, // or any default value you want to use in case of error
           status: FieldStatus.invalid,
-          errorMessage: 'Invalid title: $error',
+          errorMessage: 'Invalid ${value.runtimeType}: $error',
         ));
       }
     },
   );
 }
-Title validateStringToTitle(String arg){
-    return Title.create(arg);
+dynamic validateGenericTypes(dynamic args){
+  return args;
 }

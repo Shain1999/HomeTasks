@@ -1,5 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hometasks/src/core/response/response.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_state.dart';
@@ -8,23 +10,36 @@ import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1f
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step2form/second_step_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step3form/third_step_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_state.dart';
+import 'package:mockito/mockito.dart';
+
+import '../../../../../../helpers/test_helper.mocks.dart';
 
 void main() {
+
+  late MockAddTaskUseCase mockAddTaskUseCase;
+
   group('FirstStepFormBloc and MainFormBloc interaction', () {
+    // Stub the handle method to return a successful Result
+    when(mockAddTaskUseCase.handle(any)).thenAnswer(
+            (_) async => Response<Task>.ok());
     blocTest<MainFormBloc, MainFormState>(
       'receives OnStepSuccess from FirstStepBloc and updates currentStep',
       build: () {
         final firstStepBloc = FirstStepBloc();
         final secondStepBloc = SecondStepBloc();
         final thirdStepBloc = ThirdStepBloc();
+        mockAddTaskUseCase = MockAddTaskUseCase();
 
         return MainFormBloc(
           firstStepBloc: firstStepBloc,
           secondStepBloc: secondStepBloc,
-          thirdStepBloc: thirdStepBloc
+          thirdStepBloc: thirdStepBloc,
+          addTaskUseCase: mockAddTaskUseCase
         );
       },
       act: (mainBloc) {
+
+
         // Create FirstStepFormBloc
         final firstStepBloc = mainBloc.firstStepBloc;
 
@@ -54,7 +69,8 @@ void main() {
         return MainFormBloc(
             firstStepBloc: firstStepBloc,
             secondStepBloc: secondStepBloc,
-            thirdStepBloc: thirdStepBloc
+            thirdStepBloc: thirdStepBloc,
+            addTaskUseCase: mockAddTaskUseCase
         );
       },
       act: (mainBloc) {
@@ -87,7 +103,8 @@ void main() {
         return MainFormBloc(
             firstStepBloc: firstStepBloc,
             secondStepBloc: secondStepBloc,
-            thirdStepBloc: thirdStepBloc
+            thirdStepBloc: thirdStepBloc,
+            addTaskUseCase: mockAddTaskUseCase
         );
       },
       act: (mainBloc) {
