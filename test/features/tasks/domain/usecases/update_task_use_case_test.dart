@@ -8,6 +8,10 @@ import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart
 import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/update_task_params.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_case.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/score/score.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/description/description.dart' as Description;
+
 import 'package:mockito/mockito.dart';
 import '../../../../helpers/test_helper.mocks.dart';
 
@@ -21,13 +25,24 @@ void main() {
   });
 
   const String testTaskId = '158935489';
-  Task testTask = Task(
-
-    title: 'Sample Task',
-    priority: TaskPriority.medium,
-    reminders: TaskReminders.weekly,
-    category: TaskCategory.cleaning,
+  final testTask = Task(
+    id: '1',
+    title: Title.create('Test Task'),
+    description: Description.Description.create('Task Description'),
+    isCompleted: true,
+    dueDate: DateTime.now().add(Duration(days: 7)),
+    createdOn: DateTime.now(),
+    modifiedOn: DateTime.now(),
+    estimatedTime: DateTime.now().add(Duration(hours: 2)),
+    assignedUserUids: ['user1', 'user2'],
+    completedByUserUids: ['user3', 'user4'],
+    notes: ['Note 1', 'Note 2'],
+    comments: ['Comment 1', 'Comment 2'],
+    score: Score.create(10),
+    category: TaskCategory.shopping,
     reccuring: TaskReccuring.weekly,
+    priority: TaskPriority.high,
+    reminders: TaskReminders.daily,
   );
   const Map<String, dynamic> updatedFields = {'priority': 'high', 'category': 'shopping'};
 

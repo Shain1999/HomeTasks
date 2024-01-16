@@ -3,20 +3,20 @@ import 'package:hometasks/src/features/tasks/domain/entities/get_task_params_mod
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
 import 'package:hometasks/src/features/tasks/presentation/filters/task_view_filter.dart';
 
-abstract class TaskEvent extends Equatable{
-  const TaskEvent();
+abstract class TaskListEvent extends Equatable{
+  const TaskListEvent();
 
   @override
   List<Object?> get props => [];
 }
-class OnGetTasks extends TaskEvent{
+class OnGetTasks extends TaskListEvent{
 
   const OnGetTasks();
 
   @override
   List<Object?> get props => [];
 }
-class OnAddTask extends TaskEvent {
+class OnAddTask extends TaskListEvent {
   final Task task;
   const OnAddTask(this.task);
 
@@ -24,7 +24,7 @@ class OnAddTask extends TaskEvent {
   List<Object?> get props => [task];
 }
 
-class OnUpdateTask extends TaskEvent {
+class OnUpdateTask extends TaskListEvent {
   final String taskId;
   final Map<String, dynamic> updatedFields;
   final Task? taskToUpdate;
@@ -34,7 +34,7 @@ class OnUpdateTask extends TaskEvent {
   List<Object?> get props => [taskId, updatedFields,taskToUpdate];
 }
 
-class OnDeleteTask extends TaskEvent {
+class OnDeleteTask extends TaskListEvent {
   final String taskId;
   const OnDeleteTask(this.taskId);
 
@@ -42,14 +42,14 @@ class OnDeleteTask extends TaskEvent {
   List<Object?> get props => [taskId];
 }
 
-class OnGetTaskById extends TaskEvent {
+class OnGetTaskById extends TaskListEvent {
   final String taskId;
   const OnGetTaskById(this.taskId);
 
   @override
   List<Object?> get props => [taskId];
 }
-class OnTasksViewFilterChanged extends TaskEvent {
+class OnTasksViewFilterChanged extends TaskListEvent {
   const OnTasksViewFilterChanged(this.filter);
 
   final TaskViewFilter filter;

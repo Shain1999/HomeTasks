@@ -10,7 +10,7 @@ import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart
 class TaskModel extends Equatable {
   final String id; //id of the task
   final String title; //title
-  final String? description; // description
+  final String description; // description
   final bool isCompleted; // if the task is completed
   final DateTime? dueDate; // when the task is due
   final DateTime? createdOn; //time created
@@ -31,7 +31,7 @@ class TaskModel extends Equatable {
   const TaskModel(
       {required this.id,
       required this.title,
-      this.description,
+      required this.description,
       this.completedByUserUids,
       this.isCompleted = false,
       this.dueDate,
@@ -112,25 +112,7 @@ class TaskModel extends Equatable {
     };
   }
   Task toEntity() {
-    return Task(
-      id: id,
-      title: title,
-      description: description,
-      isCompleted: isCompleted,
-      dueDate: dueDate,
-      createdOn: createdOn,
-      modifiedOn: modifiedOn,
-      estimatedTime: estimatedTime,
-      assignedUserUids: assignedUserUids,
-      priority: priority,
-      reminders: reminders,
-      notes: notes,
-      comments: comments,
-      score: score,
-      category: category,
-      reccuring: reccuring,
-      completedByUserUids: completedByUserUids,
-    );
+    return Task.fromModel(this);
   }
 
 }

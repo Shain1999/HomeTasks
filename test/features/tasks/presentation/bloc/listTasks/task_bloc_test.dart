@@ -4,15 +4,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hometasks/src/core/response/response.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/get_task_params_model.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/update_task_params.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/score/score.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/description/description.dart' as Description;
 import 'package:hometasks/src/features/tasks/domain/usecases/tasks_use_cases.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_event.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_state.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_event.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_state.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../../helpers/test_helper.mocks.dart';
@@ -21,33 +23,80 @@ import '../../../../../helpers/test_helper.mocks.dart';
 
 void main() {
   const GetTaskParams params = GetTaskParams();
-   List<Task> testTaskList = [
+  List<Task> testTaskList =[
     Task(
-        title: 'task1',
-        priority: TaskPriority.low,
-        reminders: TaskReminders.weekly,
-        category: TaskCategory.cleaning,
-        reccuring: TaskReccuring.weekly),
-    Task(
-        title: 'task2',
-        priority: TaskPriority.medium,
-        reminders: TaskReminders.weekly,
-        category: TaskCategory.shopping,
-        reccuring: TaskReccuring.daily),
-    Task(
-        title: 'task3',
-        priority: TaskPriority.medium,
-        reminders: TaskReminders.daily,
-        category: TaskCategory.shopping,
-        reccuring: TaskReccuring.mountly),
-  ];
-   Task testTask = Task(
-      title: 'task3',
-      priority: TaskPriority.medium,
-      reminders: TaskReminders.daily,
+      title: Title.create('Test Task'),
+      description: Description.Description.create('Task Description'),
+      isCompleted: true,
+      dueDate: DateTime.now().add(Duration(days: 7)),
+      createdOn: DateTime.now(),
+      modifiedOn: DateTime.now(),
+      estimatedTime: DateTime.now().add(Duration(hours: 2)),
+      assignedUserUids: ['user1', 'user2'],
+      completedByUserUids: ['user3', 'user4'],
+      notes: ['Note 1', 'Note 2'],
+      comments: ['Comment 1', 'Comment 2'],
+      score: Score.create(10),
       category: TaskCategory.shopping,
-      reccuring: TaskReccuring.mountly);
-
+      reccuring: TaskReccuring.weekly,
+      priority: TaskPriority.high,
+      reminders: TaskReminders.daily,
+    ),
+    Task(
+      title: Title.create('Test Task 2' ),
+      description: Description.Description.create('Task Description'),
+      isCompleted: true,
+      dueDate: DateTime.now().add(Duration(days: 7)),
+      createdOn: DateTime.now(),
+      modifiedOn: DateTime.now(),
+      estimatedTime: DateTime.now().add(Duration(hours: 2)),
+      assignedUserUids: ['user1', 'user2'],
+      completedByUserUids: ['user3', 'user4'],
+      notes: ['Note 1', 'Note 2'],
+      comments: ['Comment 1', 'Comment 2'],
+      score: Score.create(10),
+      category: TaskCategory.shopping,
+      reccuring: TaskReccuring.weekly,
+      priority: TaskPriority.high,
+      reminders: TaskReminders.daily,
+    ),
+    Task(
+      title: Title.create('Test Task 3'),
+      description: Description.Description.create('Task Description'),
+      isCompleted: true,
+      dueDate: DateTime.now().add(Duration(days: 7)),
+      createdOn: DateTime.now(),
+      modifiedOn: DateTime.now(),
+      estimatedTime: DateTime.now().add(Duration(hours: 2)),
+      assignedUserUids: ['user1', 'user2'],
+      completedByUserUids: ['user3', 'user4'],
+      notes: ['Note 1', 'Note 2'],
+      comments: ['Comment 1', 'Comment 2'],
+      score: Score.create(10),
+      category: TaskCategory.shopping,
+      reccuring: TaskReccuring.weekly,
+      priority: TaskPriority.high,
+      reminders: TaskReminders.daily,
+    ),
+  ];
+  final testTask = Task(
+    title: Title.create('Test Task'),
+    description: Description.Description.create('Task Description'),
+    isCompleted: true,
+    dueDate: DateTime.now().add(Duration(days: 7)),
+    createdOn: DateTime.now(),
+    modifiedOn: DateTime.now(),
+    estimatedTime: DateTime.now().add(Duration(hours: 2)),
+    assignedUserUids: ['user1', 'user2'],
+    completedByUserUids: ['user3', 'user4'],
+    notes: ['Note 1', 'Note 2'],
+    comments: ['Comment 1', 'Comment 2'],
+    score: Score.create(10),
+    category: TaskCategory.shopping,
+    reccuring: TaskReccuring.weekly,
+    priority: TaskPriority.high,
+    reminders: TaskReminders.daily,
+  );
   group('TaskViewBloc', () {
     late TaskListBloc taskViewBloc;
     late MockGetTasksUseCase mockGetTasksUseCase;
@@ -78,13 +127,13 @@ void main() {
       test('has correct initial state', () {
         expect(
           taskViewBloc.state,
-          equals(const TasksViewState()),
+          equals(const TasksListState()),
         );
       });
     });
 
     group('onGetTasks', () {
-      blocTest<TaskListBloc, TasksViewState>(
+      blocTest<TaskListBloc, TasksListState>(
         'emits stream connection successfull when OnGetTasks is added',
         build: () => taskViewBloc,
         act: (bloc) {
@@ -103,7 +152,7 @@ void main() {
     });
 
     group('onTaskDelete', () {
-      blocTest<TaskListBloc, TasksViewState>(
+      blocTest<TaskListBloc, TasksListState>(
         'emits TaskDeleted and success status when OnDeleteTask is added',
         build: () => taskViewBloc,
         act: (bloc) async {
@@ -119,13 +168,13 @@ void main() {
             bloc.stream,
             emitsInOrder([
               // Loading state
-              isA<TasksViewState>().having(
+              isA<TasksListState>().having(
                     (state) => state.status,
                 'status',
                 TasksViewStatus.loading,
               ),
               // TaskDeleted state
-              isA<TasksViewState>().having(
+              isA<TasksListState>().having(
                     (state) => state.status,
                 'status',
                 TasksViewStatus.success,
@@ -139,7 +188,7 @@ void main() {
         },
       );
     });
-    blocTest<TaskListBloc, TasksViewState>(
+    blocTest<TaskListBloc, TasksListState>(
       'emits TaskDeleted and failed status when OnDeleteTask is failed',
       build: () => taskViewBloc,
       act: (bloc) async {
@@ -155,13 +204,13 @@ void main() {
           bloc.stream,
           emitsInOrder([
             // Loading state
-            isA<TasksViewState>().having(
+            isA<TasksListState>().having(
                   (state) => state.status,
               'status',
               TasksViewStatus.loading,
             ),
             // TaskDeleted state
-            isA<TasksViewState>().having(
+            isA<TasksListState>().having(
                   (state) => state.status,
               'status',
               TasksViewStatus.failure,

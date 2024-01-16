@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_bloc.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_event.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_state.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_event.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_state.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -23,7 +19,7 @@ class HomeScreen extends StatelessWidget {
         context.read<TaskListBloc>().add(const OnGetTasks());
       }, child: Icon(Icons.refresh))
       ],),
-      body: BlocConsumer<TaskListBloc, TasksViewState>(
+      body: BlocConsumer<TaskListBloc, TasksListState>(
         builder: (context, state) {
           if (state.status == TasksViewStatus.initial) {
             context.read<TaskListBloc>().add(const OnGetTasks());
@@ -69,7 +65,7 @@ class HomeScreen extends StatelessWidget {
   Widget _buildTaskListTile(Task task) {
     // Implement your custom list tile widget
     return ListTile(
-      title: Text(task.title),
+      title: Text(task.title.value),
       subtitle: Text(task.isCompleted ? "Completed" : "Ongoing"),
       // Add more widgets as needed
     );

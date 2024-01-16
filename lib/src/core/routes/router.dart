@@ -5,9 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hometasks/src/core/services/dependency_injection_container.dart';
 import 'package:hometasks/src/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
+import 'package:hometasks/src/features/tasks/domain/usecases/add_task_use_case.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_case.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/editTask/task_edit_bloc.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/pages/add_task_page.dart';
 import 'package:hometasks/src/features/tasks/presentation/pages/home_page.dart';
 import 'package:hometasks/src/core/services/dependency_injection_container.dart';
@@ -39,6 +40,7 @@ GoRouter createRouter(BuildContext context) {
           builder: (context, state) =>
               BlocProvider(create: (context) =>
                   TaskEditBloc(
+
                       updateTaskUseCase: sl.get<UpdateTaskUseCase>()),
                 child: const AddTaskPage(),))
     ],

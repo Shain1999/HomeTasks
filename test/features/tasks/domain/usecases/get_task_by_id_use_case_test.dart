@@ -7,6 +7,10 @@ import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart'
 import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/get_task_by_id_use_case.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/score/score.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/description/description.dart' as Description;
+
 import 'package:mockito/mockito.dart';
 import '../../../../helpers/test_helper.mocks.dart';
 
@@ -20,26 +24,26 @@ void main() {
   });
 
   const String testTaskId = '158935489';
-
-  Task testTask = Task(
+  final testTask = Task(
     id: '158935489',
-    title: 'Sample Task',
-    description: 'This is a sample task for testing.',
-    isCompleted: false,
+    title: Title.create('Test Task'),
+    description: Description.Description.create('Task Description'),
+    isCompleted: true,
     dueDate: DateTime.now().add(Duration(days: 7)),
     createdOn: DateTime.now(),
     modifiedOn: DateTime.now(),
     estimatedTime: DateTime.now().add(Duration(hours: 2)),
     assignedUserUids: ['user1', 'user2'],
-    completedByUserUids: ['user1'],
+    completedByUserUids: ['user3', 'user4'],
     notes: ['Note 1', 'Note 2'],
     comments: ['Comment 1', 'Comment 2'],
-    score: 5,
-    priority: TaskPriority.medium,
-    reminders: TaskReminders.daily,
-    category: TaskCategory.cleaning,
+    score: Score.create(10),
+    category: TaskCategory.shopping,
     reccuring: TaskReccuring.weekly,
+    priority: TaskPriority.high,
+    reminders: TaskReminders.daily,
   );
+
 
   test('should fetch task by id from the repository', () async {
     // arrange

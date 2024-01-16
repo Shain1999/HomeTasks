@@ -1,19 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/update_task_params.dart';
-import 'package:hometasks/src/features/tasks/domain/repositories/firebase_task_repository_domain.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/tasks_use_cases.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_event.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_state.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_event.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_state.dart';
 
-class TaskListBloc extends Bloc<TaskEvent,TasksViewState> {
+class TaskListBloc extends Bloc<TaskListEvent,TasksListState> {
   TaskListBloc({
 
     required TaskUseCases taskUseCases,
   })
       :
         _taskUseCases=taskUseCases,
-        super(const TasksViewState()) {
+        super(const TasksListState()) {
     on<OnGetTasks>(_onGetTasks);
 
     on<OnDeleteTask>(_onDeleteTask);
@@ -32,7 +31,7 @@ class TaskListBloc extends Bloc<TaskEvent,TasksViewState> {
   final TaskUseCases _taskUseCases;
 
   Future<void> _onGetTasks(OnGetTasks event,
-      Emitter<TasksViewState> emit) async {
+      Emitter<TasksListState> emit) async {
     emit(state.copyWith(status: () => TasksViewStatus.loading));
 
     await emit.forEach<List<Task>>(
@@ -49,7 +48,7 @@ class TaskListBloc extends Bloc<TaskEvent,TasksViewState> {
   }
 
   Future<void> _onUpdateTask(OnUpdateTask event,
-      Emitter<TasksViewState> emit) async {
+      Emitter<TasksListState> emit) async {
     emit(state.copyWith(status: () => TasksViewStatus.loading));
 
     final response = await _taskUseCases.updateTask.handle(
@@ -64,7 +63,7 @@ class TaskListBloc extends Bloc<TaskEvent,TasksViewState> {
   }
 
   Future<void> _onDeleteTask(OnDeleteTask event,
-      Emitter<TasksViewState> emit) async {
+      Emitter<TasksListState> emit) async {
     emit(state.copyWith(status: () => TasksViewStatus.loading));
 
     final response = await _taskUseCases.deleteTask.handle(event.taskId);
@@ -77,7 +76,7 @@ class TaskListBloc extends Bloc<TaskEvent,TasksViewState> {
   }
 
   Future<void> _onFilterChanged(OnTasksViewFilterChanged event,
-      Emitter<TasksViewState> emit) async {
+      Emitter<TasksListState> emit) async {
     emit(state.copyWith(filter: () => event.filter));
   }
 

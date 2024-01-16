@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/get_task_params_model.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
-import 'package:hometasks/src/features/tasks/presentation/filters/task_view_filter.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_event.dart';
+
 //template for all TaskEditEvents
-abstract class TaskEditEvent extends Equatable{
+abstract class TaskEditEvent extends TaskEvent{
   const TaskEditEvent();
 
   @override
@@ -27,8 +26,9 @@ class OnInitAdd extends TaskEditEvent{
   List<Object?> get props => [];
 }
 // when the user navigate to the new or edit screen init the state to fit the desired task
-class OnInitEdit extends TaskEditEvent{
-  const OnInitEdit();
+class OnInitEditEvent extends TaskEditEvent{
+  final Task task;
+  const OnInitEditEvent({required this.task});
 
   @override
   List<Object?> get props => [];

@@ -2,9 +2,13 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hometasks/src/features/tasks/data/models/task_model.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/description/description.dart' as Description;
+import 'package:hometasks/src/features/tasks/domain/valueObjects/score/score.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart';
 
 void main() {
   test('Should return a valid model from Firebase document', () async {
@@ -100,50 +104,6 @@ void main() {
     expect(document['priority'], TaskPriority.high.index);
     expect(document['reminders'], TaskReminders.daily.index);
   });
-  test('Should convert TaskModel to valid Task entity', () {
-    // Arrange
-    final taskModel = TaskModel(
-      id:'1',
-      title: 'Test Task',
-      description: 'Task Description',
-      isCompleted: true,
-      dueDate: DateTime.now(),
-      createdOn: DateTime.now(),
-      modifiedOn: DateTime.now(),
-      estimatedTime: DateTime.now(),
-      assignedUserUids: ['user1', 'user2'],
-      completedByUserUids: ['user3', 'user4'],
-      notes: ['Note 1', 'Note 2'],
-      comments: ['Comment 1', 'Comment 2'],
-      score: 10,
-      category: TaskCategory.shopping,
-      reccuring: TaskReccuring.weekly,
-      priority: TaskPriority.high,
-      reminders: TaskReminders.daily,
-    );
-
-    // Act
-    final taskEntity = taskModel.toEntity();
-
-    // Assert
-
-    expect(taskEntity.title, 'Test Task');
-    expect(taskEntity.description, 'Task Description');
-    expect(taskEntity.isCompleted, true);
-    expect(taskEntity.dueDate, isA<DateTime>());
-    expect(taskEntity.createdOn, isA<DateTime>());
-    expect(taskEntity.modifiedOn, isA<DateTime>());
-    expect(taskEntity.estimatedTime, isA<DateTime>());
-    expect(taskEntity.assignedUserUids, ['user1', 'user2']);
-    expect(taskEntity.completedByUserUids, ['user3', 'user4']);
-    expect(taskEntity.notes, ['Note 1', 'Note 2']);
-    expect(taskEntity.comments, ['Comment 1', 'Comment 2']);
-    expect(taskEntity.score, 10);
-    expect(taskEntity.category, TaskCategory.shopping);
-    expect(taskEntity.reccuring, TaskReccuring.weekly);
-    expect(taskEntity.priority, TaskPriority.high);
-    expect(taskEntity.reminders, TaskReminders.daily);
-  });
 
   test('Should convert TaskModel to valid Task entity', () {
     // Arrange
@@ -168,11 +128,11 @@ void main() {
     );
 
     // Act
-    final taskEntity = taskModel.toEntity();
+    final taskEntity = Task.fromModel(taskModel);
 
     // Assert
-    expect(taskEntity.title, 'Test Task');
-    expect(taskEntity.description, 'Task Description');
+    expect(taskEntity.title, Title.create('Test Task'));
+    expect(taskEntity.description, Description.Description.create('Task Description'));
     expect(taskEntity.isCompleted, true);
     expect(taskEntity.dueDate, isA<DateTime>());
     expect(taskEntity.createdOn, isA<DateTime>());
@@ -182,7 +142,7 @@ void main() {
     expect(taskEntity.completedByUserUids, ['user3', 'user4']);
     expect(taskEntity.notes, ['Note 1', 'Note 2']);
     expect(taskEntity.comments, ['Comment 1', 'Comment 2']);
-    expect(taskEntity.score, 10);
+    expect(taskEntity.score, Score.create(10));
     expect(taskEntity.category, TaskCategory.shopping);
     expect(taskEntity.reccuring, TaskReccuring.weekly);
     expect(taskEntity.priority, TaskPriority.high);

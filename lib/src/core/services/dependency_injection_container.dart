@@ -14,8 +14,9 @@ import 'package:hometasks/src/features/tasks/domain/usecases/get_task_by_id_use_
 import 'package:hometasks/src/features/tasks/domain/usecases/get_tasks_use_case.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/tasks_use_cases.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_case.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/addTask/task_add_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/editTask/task_edit_bloc.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -33,8 +34,11 @@ Future<void> initDependencies() async{
   sl.registerFactory<TaskListBloc>(() => TaskListBloc(
     taskUseCases: sl<TaskUseCases>(),
   ));
+
   sl.registerFactory(() => TaskEditBloc(
-    addTaskUseCase: sl<AddTaskUseCase>(),
     updateTaskUseCase: sl<UpdateTaskUseCase>(),
+  ));
+  sl.registerFactory(() => TaskAddBloc(
+    addTaskUseCase: sl<AddTaskUseCase>(),
   ));
 }

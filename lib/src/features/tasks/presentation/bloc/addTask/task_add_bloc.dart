@@ -1,21 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/update_task_params.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/add_task_use_case.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/addTask/task_add_event.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/addTask/task_add_state.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_event.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_state.dart';
 
-class TaskAddBloc extends Bloc<TaskAddEvent,TaskAddState> {
+class TaskAddBloc extends TaskBloc{
   TaskAddBloc({
     required AddTaskUseCase addTaskUseCase
   })
       :
         _addTaskUseCase=addTaskUseCase,
-        super(TaskAddState()) {
-    on<OnInit>(_onInit);
-    on<OnFormSubmit>(_onFormSubmit);
+        super();
 
-  }
 
   @override
   Future<void> close() {
@@ -26,22 +24,40 @@ class TaskAddBloc extends Bloc<TaskAddEvent,TaskAddState> {
   }
   final AddTaskUseCase _addTaskUseCase;
 
-  Future<void> _onInit(OnInit event,
-      Emitter<TaskAddState> emit)async {
-    emit(state.copyWith(status: ()=>TaskAddStatus.initial,task: ()=>Task.initial()));
+  @override
+  Future<void> OnInitFunc(OnInitEvent event,
+      Emitter<TaskState> emit)async {
+    emit(state.copyWith(status: ()=>TaskStatus.initial));
   }
 
-  Future<void> _onFormSubmit(OnFormSubmit event,
-      Emitter<TaskAddState> emit) async{
-    emit(state.copyWith(status: ()=>TaskAddStatus.loading));
 
-    final response = await _addTaskUseCase.handle(state.task!);
+  @override
+  Future<void> OnFormSubmitFunc(OnFormSubmitEvent event, Emitter<TaskState> emit) async {
+    emit(state.copyWith(status: ()=>TaskStatus.loading));
+    final Task taskToAdd = Task.createTaskFromMap(state.updatedFields);
+    final response = await _addTaskUseCase.handle(taskToAdd);
     if(!response.isSuccess)
     {
-      emit(state.copyWith(status: ()=>TaskAddStatus.failure,errorMessage: response.message));
+      emit(state.copyWith(status: ()=>TaskStatus.failure,errorMessage: response.message));
       return;
     }
-    emit(state.copyWith(status: ()=>TaskAddStatus.success));
+    emit(state.copyWith(status: ()=>TaskStatus.success));
+  }
+  @override
+  Future<void> OnFieldChangedFunc(OnFieldChangedEvent event, Emitter<TaskState> emit) async {
+    // Copy the existing updatedFields map
+    final updatedFieldsCopy = Map<String, dynamic>.from(state.updatedFields);
+
+    // Update the specific field with the new value
+    updatedFieldsCopy[event.fieldName] = event.value;
+
+    // Emit the updated state
+    emit(state.copyWith(updatedFields: () => updatedFieldsCopy));
+  }
+  // Additional method for testing purposes
+  @visibleForTesting
+  void setTestUpdateFields(Map<String, dynamic> testFields) {
+    emit(state.copyWith(updatedFields: () => testFields));
   }
 
 }
