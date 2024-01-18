@@ -25,15 +25,11 @@ void main() {
     blocTest<MainFormBloc, MainFormState>(
       'receives OnStepSuccess from FirstStepBloc and updates currentStep',
       build: () {
-        final firstStepBloc = FirstStepBloc();
-        final secondStepBloc = SecondStepBloc();
-        final thirdStepBloc = ThirdStepBloc();
+
         mockAddTaskUseCase = MockAddTaskUseCase();
 
         return MainFormBloc(
-          firstStepBloc: firstStepBloc,
-          secondStepBloc: secondStepBloc,
-          thirdStepBloc: thirdStepBloc,
+
           addTaskUseCase: mockAddTaskUseCase
         );
       },

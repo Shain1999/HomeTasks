@@ -61,4 +61,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
     localDataSource.write(key: 'user', value: null);
   }
+
+  @override
+  Stream<List<AuthUser?>> getUsers() {
+    return remoteDataSource.users.map((authUserModels) =>
+        authUserModels.map((authUserModel) => authUserModel?.toEntity()).toList());
+  }
 }

@@ -3,14 +3,15 @@
 
 
 import 'package:bloc/src/bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step3form/third_step_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_bloc.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_state.dart';
 
 class ThirdStepBloc extends Bloc<MainFormEvent,ThirdStepFormState> implements IChildStepFormFunctions{
-  ThirdStepBloc() :super(ThirdStepFormState()){
+  final MainFormBloc _mainFormBloc;
+  ThirdStepBloc({required MainFormBloc mainFormBloc}):_mainFormBloc=mainFormBloc ,super(ThirdStepFormState()){
     on<OnStepSubmit>(OnStepSubmitFunc);
     on<OnStepFailure>(OnStepFailureFunc);
     on<OnStepSuccess>(OnStepSuccessFunc);
@@ -37,9 +38,6 @@ class ThirdStepBloc extends Bloc<MainFormEvent,ThirdStepFormState> implements IC
       status: ()=>ChildStepFormStatus.loading,
       // Update other properties as needed
     ));
-
-    // Dispatch an event to the main form bloc to move to the next step
-    add(OnStepSuccess(step: state.step));
   }
 
   @override
@@ -51,6 +49,7 @@ class ThirdStepBloc extends Bloc<MainFormEvent,ThirdStepFormState> implements IC
       status: ()=>ChildStepFormStatus.success,
       // Update other properties as needed
     ));
+    _mainFormBloc.add(OnStepSuccess(step: state.step,values: state.getCurrentValuesToMap()));
   }
 
 }

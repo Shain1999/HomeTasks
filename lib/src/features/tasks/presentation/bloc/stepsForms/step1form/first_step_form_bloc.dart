@@ -1,14 +1,22 @@
 import 'package:bloc/src/bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_event.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_state.dart';
 
 class FirstStepBloc extends Bloc<MainFormEvent,FirstStepFormState> implements IChildStepFormFunctions{
-  FirstStepBloc() :super(FirstStepFormState()){
+  final MainFormBloc _mainFormBloc;
+
+  FirstStepBloc({
+    required MainFormBloc mainFormBloc,
+}):_mainFormBloc=mainFormBloc, super(FirstStepFormState()){
     on<OnStepSubmit>(OnStepSubmitFunc);
     on<OnStepFailure>(OnStepFailureFunc);
     on<OnStepSuccess>(OnStepSuccessFunc);
+    on<UpdateTaskCategoryEvent>(OnUpdateTaskCategoryEvent);
+    on<UpdateTaskPriorityEvent>(OnUpdateTaskPriorityEvent);
   }
 
   @override
@@ -19,6 +27,20 @@ class FirstStepBloc extends Bloc<MainFormEvent,FirstStepFormState> implements IC
     emit(state.copyWith(
       status: ()=>ChildStepFormStatus.failure,
       errorMessage: 'Step 1 submission failed',
+    ));
+  }
+  @override
+  Future<void> OnUpdateTaskCategoryEvent(UpdateTaskCategoryEvent event, Emitter<ChildStepFormState> emit) async {
+
+    emit(state.copyWith(
+      categoryField: ()=>event.newCategory,
+    ));
+  }
+  @override
+  Future<void> OnUpdateTaskPriorityEvent(UpdateTaskPriorityEvent event, Emitter<ChildStepFormState> emit) async {
+
+    emit(state.copyWith(
+      priorityField: ()=>event.newPriority,
     ));
   }
 
@@ -35,7 +57,7 @@ class FirstStepBloc extends Bloc<MainFormEvent,FirstStepFormState> implements IC
     ));
 
     // Dispatch an event to the main form bloc to move to the next step
-    add(OnStepSuccess(step: state.step));
+    add(OnStepSuccess(step: state.step,values: state.getCurrentValuesToMap()));
   }
 
   @override
@@ -47,6 +69,7 @@ class FirstStepBloc extends Bloc<MainFormEvent,FirstStepFormState> implements IC
       status: ()=>ChildStepFormStatus.success,
       // Update other properties as needed
     ));
+    _mainFormBloc.add(OnStepSuccess(step: state.step,values: state.getCurrentValuesToMap()));
   }
 
 

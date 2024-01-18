@@ -4,6 +4,7 @@ import 'package:hometasks/src/features/auth/data/data_sources/auth_local_data_so
 import 'package:hometasks/src/features/auth/data/data_sources/auth_remote_data_source_firebase.dart';
 import 'package:hometasks/src/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:hometasks/src/features/auth/domain/repositories/auth_repository.dart';
+import 'package:hometasks/src/features/auth/domain/use_cases/sream_get_users_use_case.dart';
 import 'package:hometasks/src/features/tasks/data/data_sources/firesbase_task_data_source.dart';
 import 'package:hometasks/src/features/tasks/data/repositories/task_remote_data_source.dart';
 import 'package:hometasks/src/features/tasks/data/repositories/firebase_task_repository_data_impl.dart';
@@ -28,6 +29,8 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<AuthRepository>(() =>
       AuthRepositoryImpl(remoteDataSource: AuthRemoteDataSourceFirebase(),
           localDataSource: AuthLocalDataSource()));
+  sl.registerLazySingleton<StreamUsersUseCase>(() =>
+      StreamUsersUseCase(authRepository: sl<AuthRepository>()));
   sl.registerLazySingleton<TaskDataSource>(() =>
       FirebaseTaskDataSource(firestore: FirebaseFirestore.instance));
   sl.registerLazySingleton<DomainFirebaseTaskRepository>(() =>
@@ -52,14 +55,15 @@ Future<void> initDependencies() async {
       TaskListBloc(
         taskUseCases: sl<TaskUseCases>(),
       ));
-  sl.registerFactory<FirstStepBloc>(() => FirstStepBloc());
-  sl.registerFactory<SecondStepBloc>(() => SecondStepBloc());
-  sl.registerFactory<ThirdStepBloc>(() => ThirdStepBloc());
-  sl.registerFactory<MainFormBloc>(() =>
-      MainFormBloc(addTaskUseCase: sl<AddTaskUseCase>(),
-          firstStepBloc: sl<FirstStepBloc>(),
-          secondStepBloc: sl<SecondStepBloc>(),
-          thirdStepBloc: sl<ThirdStepBloc>()));
+  sl.registerLazySingleton<MainFormBloc>(() =>
+      MainFormBloc(addTaskUseCase: sl<AddTaskUseCase>()));
+
+  sl.registerFactory<FirstStepBloc>(() =>
+      FirstStepBloc(mainFormBloc: sl<MainFormBloc>()));
+  sl.registerFactory<SecondStepBloc>(() =>
+      SecondStepBloc(mainFormBloc: sl<MainFormBloc>()));
+  sl.registerFactory<ThirdStepBloc>(() =>
+      ThirdStepBloc(mainFormBloc: sl<MainFormBloc>()));
 
   sl.registerFactory<TaskEditBloc>(() =>
       TaskEditBloc(

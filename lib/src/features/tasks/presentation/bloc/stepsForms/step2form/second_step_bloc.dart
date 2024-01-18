@@ -1,18 +1,61 @@
-
-
-
-
 import 'package:bloc/src/bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_event.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step2form/second_step_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step2form/second_step_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_state.dart';
 
 class SecondStepBloc extends Bloc<MainFormEvent,SecondStepFormState> implements IChildStepFormFunctions{
-  SecondStepBloc() :super(SecondStepFormState()){
+  final MainFormBloc _mainFormBloc;
+
+  SecondStepBloc({required MainFormBloc mainFormBloc}):_mainFormBloc=mainFormBloc, super(SecondStepFormState()){
     on<OnStepSubmit>(OnStepSubmitFunc);
     on<OnStepFailure>(OnStepFailureFunc);
     on<OnStepSuccess>(OnStepSuccessFunc);
+    on<UpdateDueDateEvent>(_updateDueDate);
+    on<UpdateEstimatedTimeEvent>(_updateEstimatedTime);
+    on<UpdateTaskReminderEvent>(_updateTaskReminder);
+    on<UpdateTaskReccuringEvent>(_updateTaskRecurring);
+  }
+  @override
+  Future<void> close() {
+    // Close any resources here
+
+    // Close the stream
+    return super.close();
+  }
+
+  Future<void> _updateDueDate(
+      UpdateDueDateEvent event, Emitter<SecondStepFormState> emit) async {
+    // Handle updating due date logic
+    emit(state.copyWith(
+      dueDateField: () => event.newDate,
+    ));
+  }
+
+  Future<void> _updateEstimatedTime(
+      UpdateEstimatedTimeEvent event, Emitter<SecondStepFormState> emit) async {
+    // Handle updating estimated time logic
+    emit(state.copyWith(
+      estimatedTimeField: () => event.newTimeRange,
+    ));
+  }
+
+  Future<void> _updateTaskReminder(
+      UpdateTaskReminderEvent event, Emitter<SecondStepFormState> emit) async {
+    // Handle updating task reminder logic
+    emit(state.copyWith(
+      reminderField: () => event.newReminder,
+    ));
+  }
+
+  Future<void> _updateTaskRecurring(
+      UpdateTaskReccuringEvent event, Emitter<SecondStepFormState> emit) async {
+    // Handle updating task recurring logic
+    emit(state.copyWith(
+      reccuringField: () => event.newReccuring,
+    ));
   }
 
   @override
@@ -36,9 +79,9 @@ class SecondStepBloc extends Bloc<MainFormEvent,SecondStepFormState> implements 
       status: ()=>ChildStepFormStatus.loading,
       // Update other properties as needed
     ));
+    add(OnStepSuccess(step: state.step, values: state.getCurrentValuesToMap()));
 
-    // Dispatch an event to the main form bloc to move to the next step
-    add(OnStepSuccess(step: state.step));
+
   }
 
   @override
@@ -50,7 +93,7 @@ class SecondStepBloc extends Bloc<MainFormEvent,SecondStepFormState> implements 
       status: ()=>ChildStepFormStatus.success,
       // Update other properties as needed
     ));
+    _mainFormBloc.add(OnStepSuccess(step: state.step,values: state.getCurrentValuesToMap()));
   }
-
 
 }

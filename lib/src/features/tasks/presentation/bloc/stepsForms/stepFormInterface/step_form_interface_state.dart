@@ -3,7 +3,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_state.dart';
 
-enum ChildStepFormStatus { initial, loading, success, failure,error }
+enum ChildStepFormStatus { initial, loading, success, failure,error,valid }
 class ChildStepFormState extends Equatable {
   const ChildStepFormState({
     this.status = ChildStepFormStatus.initial,

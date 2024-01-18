@@ -35,4 +35,8 @@ class AuthRemoteDataSourceFake implements AuthRemoteDataSource {
   Future<void> signOut() async {
     throw UnimplementedError();
   }
+
+  @override
+  // TODO: implement users
+  Stream<List<AuthUserModel?>> get users => throw UnimplementedError();
 }

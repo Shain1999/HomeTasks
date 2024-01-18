@@ -11,6 +11,8 @@ abstract class AuthRepository {
 
   Stream<AuthUser> get authUser;
 
+  Stream<List<AuthUser?>> getUsers();
+
   Future<AuthUser> signUp({
     required String email,
     required String password,

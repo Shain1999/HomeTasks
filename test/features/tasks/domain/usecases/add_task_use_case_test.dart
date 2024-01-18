@@ -30,7 +30,7 @@ void main() {
     dueDate: DateTime.now().add(Duration(days: 7)),
     createdOn: DateTime.now(),
     modifiedOn: DateTime.now(),
-    estimatedTime: DateTime.now().add(Duration(hours: 2)),
+    estimatedTime: Duration(hours: 2),
     assignedUserUids: ['user1', 'user2'],
     completedByUserUids: ['user3', 'user4'],
     notes: ['Note 1', 'Note 2'],

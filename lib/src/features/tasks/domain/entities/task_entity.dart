@@ -16,7 +16,7 @@ class Task extends Equatable {
   final bool isCompleted; // if the task is completed
   final DateTime? dueDate; // when the task is due
   final DateTime? createdOn; //time created
-  final DateTime? estimatedTime; // how much time it would take
+  final Duration? estimatedTime; // how much time it would take
   final DateTime? modifiedOn; // last modified
   final TaskCategory category; // the category of the task
   final TaskReccuring reccuring; // the reaccurence of a specific class (enum)
@@ -150,7 +150,7 @@ class Task extends Equatable {
       'dueDate': dueDate?.toIso8601String(),
       'createdOn': createdOn?.toIso8601String(),
       'modifiedOn': modifiedOn?.toIso8601String(),
-      'estimatedTime': estimatedTime?.toIso8601String(),
+      'estimatedTime': estimatedTime?.inMilliseconds,
       'assignedUserUids': assignedUserUids,
       'priority': priority.toString(), // Assuming TaskPriority is an enum
       'reminders': reminders.toString(), // Assuming TaskReminders is an enum

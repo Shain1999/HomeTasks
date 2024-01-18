@@ -21,7 +21,7 @@ void main() {
         dueDate: DateTime.now(),
         createdOn: DateTime.now(),
         modifiedOn: DateTime.now(),
-        estimatedTime: DateTime.now(),
+        estimatedTime: Duration(hours: 1),
         assignedUserUids: ['user1', 'user2'],
         completedByUserUids: ['user3', 'user4'],
         notes: ['Note 1', 'Note 2'],
@@ -43,7 +43,7 @@ void main() {
       expect(taskEntity.dueDate, isA<DateTime>());
       expect(taskEntity.createdOn, isA<DateTime>());
       expect(taskEntity.modifiedOn, isA<DateTime>());
-      expect(taskEntity.estimatedTime, isA<DateTime>());
+      expect(taskEntity.estimatedTime, isA<Duration>());
       expect(taskEntity.assignedUserUids, ['user1', 'user2']);
       expect(taskEntity.completedByUserUids, ['user3', 'user4']);
       expect(taskEntity.notes, ['Note 1', 'Note 2']);
@@ -65,7 +65,7 @@ void main() {
         dueDate: DateTime.now(),
         createdOn: DateTime.now(),
         modifiedOn: DateTime.now(),
-        estimatedTime: DateTime.now(),
+        estimatedTime: Duration(hours: 1),
         assignedUserUids: ['user1', 'user2'],
         completedByUserUids: ['user3', 'user4'],
         notes: ['Note 1', 'Note 2'],
@@ -87,7 +87,7 @@ void main() {
       expect(taskModel.dueDate, isA<DateTime>());
       expect(taskModel.createdOn, isA<DateTime>());
       expect(taskModel.modifiedOn, isA<DateTime>());
-      expect(taskModel.estimatedTime, isA<DateTime>());
+      expect(taskModel.estimatedTime, isA<Duration>());
       expect(taskModel.assignedUserUids, ['user1', 'user2']);
       expect(taskModel.completedByUserUids, ['user3', 'user4']);
       expect(taskModel.notes, ['Note 1', 'Note 2']);
@@ -109,7 +109,7 @@ void main() {
         'dueDate': DateTime.now(),
         'createdOn': DateTime.now(),
         'modifiedOn': DateTime.now(),
-        'estimatedTime': DateTime.now(),
+        'estimatedTime': Duration(hours: 1),
         'assignedUserUids': ['user1', 'user2'],
         'completedByUserUids': ['user3', 'user4'],
         'notes': ['Note 1', 'Note 2'],
@@ -131,7 +131,7 @@ void main() {
       expect(taskEntity.dueDate, isA<DateTime>());
       expect(taskEntity.createdOn, isA<DateTime>());
       expect(taskEntity.modifiedOn, isA<DateTime>());
-      expect(taskEntity.estimatedTime, isA<DateTime>());
+      expect(taskEntity.estimatedTime, isA<Duration>());
       expect(taskEntity.assignedUserUids, ['user1', 'user2']);
       expect(taskEntity.completedByUserUids, ['user3', 'user4']);
       expect(taskEntity.notes, ['Note 1', 'Note 2']);
@@ -153,7 +153,7 @@ void main() {
         dueDate: DateTime.now(),
         createdOn: DateTime.now(),
         modifiedOn: DateTime.now(),
-        estimatedTime: DateTime.now(),
+        estimatedTime: Duration(hours: 1),
         assignedUserUids: ['user1', 'user2'],
         completedByUserUids: ['user3', 'user4'],
         notes: ['Note 1', 'Note 2'],

@@ -19,6 +19,18 @@ class AuthRemoteDataSourceFirebase implements AuthRemoteDataSource {
       return AuthUserModel.fromFirebaseAuthUser(firebaseUser);
     });
   }
+  @override
+  Stream<List<AuthUserModel?>> get users {
+    return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
+      if (firebaseUser == null) {
+        return [];
+      }
+
+      // You might want to fetch additional user details here if needed.
+      // For now, just return a list with the authenticated user.
+      return [AuthUserModel.fromFirebaseAuthUser(firebaseUser)];
+    });
+  }
 
   @override
   Future<AuthUserModel> signUpWithEmailAndPassword({

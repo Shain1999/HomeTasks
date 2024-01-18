@@ -17,29 +17,24 @@ class FirstStepFormState extends ChildStepFormState {
     this.errorMessage,
     FormFieldController<String, Title>? titleField,
     FormFieldController<String, Description>? descriptionField,
-    FormFieldController<TaskCategory, TaskCategory>? categoryField,
-    FormFieldController<TaskPriority, TaskPriority>? priorityField
+    this.categoryField = TaskCategory.none,
+    this.priorityField=TaskPriority.none,
   })
       : titleField = titleField ?? FormFieldController<String, Title>(
       validateFunction: validateStringToTitle,
       fieldName: 'title'),
-      descriptionField = descriptionField ?? FormFieldController<String, Description>(
-      validateFunction: validateStringToDescription,
-      fieldName: 'description'),
-      categoryField = categoryField ?? FormFieldController<TaskCategory, TaskCategory>(
-      validateFunction: validateGenericTypes,
-      fieldName: 'category'),
-      priorityField = priorityField ?? FormFieldController<TaskPriority, TaskPriority>(
-          validateFunction: validateGenericTypes,
-      fieldName: 'priority'),
+        descriptionField = descriptionField ??
+            FormFieldController<String, Description>(
+                validateFunction: validateStringToDescription,
+                fieldName: 'description'),
         super();
 
   @override
   final ChildStepFormStatus status;
   final FormFieldController<String, Title>? titleField;
   final FormFieldController<String, Description>? descriptionField;
-  final FormFieldController<TaskCategory, TaskCategory>? categoryField;
-  final FormFieldController<TaskPriority, TaskPriority>? priorityField;
+  final TaskCategory categoryField;
+  final TaskPriority priorityField;
   @override
   final String? errorMessage;
   @override
@@ -50,21 +45,31 @@ class FirstStepFormState extends ChildStepFormState {
     ChildStepFormStatus Function()? status,
     FormFieldController<String, Title> Function()? titleField,
     FormFieldController<String, Description>Function()? descriptionField,
-    FormFieldController<TaskCategory, TaskCategory>Function()? categoryField,
-    FormFieldController<TaskPriority, TaskPriority>Function()? priorityField,
+    TaskCategory Function()? categoryField,
+    TaskPriority Function()? priorityField,
     String? errorMessage
   }) {
     return FirstStepFormState(
         status: status != null ? status() : this.status,
         errorMessage: errorMessage ?? this.errorMessage,
         titleField: titleField != null ? titleField() : this.titleField,
-        categoryField: categoryField != null ? categoryField() : this.categoryField,
-        priorityField: priorityField != null ? priorityField() : this.priorityField,
-        descriptionField: descriptionField != null ? descriptionField() : this.descriptionField,
+        categoryField: categoryField != null ? categoryField() : this
+            .categoryField,
+        priorityField: priorityField != null ? priorityField() : this
+            .priorityField,
+        descriptionField: descriptionField != null ? descriptionField() : this
+            .descriptionField,
         step: this.step
 
     );
   }
+
+  bool get isFormValid =>
+      titleField!.status == FieldStatus.valid &&
+          categoryField != TaskCategory.none &&
+          priorityField != TaskPriority.none &&
+          descriptionField!.status == FieldStatus.valid;
+
   // Map<String, dynamic> toMap(){
   //   return {
   //     'title':titleField?.value ?? '',
@@ -77,8 +82,8 @@ class FirstStepFormState extends ChildStepFormState {
     return {
       'title': titleField?.value ?? '',
       'description': descriptionField?.value ?? '',
-      'category': categoryField?.value ?? TaskCategory.none,
-      'priority': priorityField?.value ?? TaskPriority.none,
+      'category': categoryField ,
+      'priority': priorityField ,
     };
   }
 

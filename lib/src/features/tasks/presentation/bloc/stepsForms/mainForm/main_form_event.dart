@@ -31,7 +31,8 @@ class OnStepFailure extends MainFormEvent{
 }
 class OnStepSuccess extends MainFormEvent{
   final CurrentStep step;
-  const OnStepSuccess({required this.step});
+  final Map<String,dynamic> values;
+  const OnStepSuccess({required this.step,required this.values});
 
   @override
   List<Object?> get props => [];

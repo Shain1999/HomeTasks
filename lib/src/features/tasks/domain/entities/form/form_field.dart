@@ -83,8 +83,8 @@ class FormFieldController<InputType, ReturnType> extends Equatable {
   Stream<FormFieldModel<ReturnType>> get valueStream => _valueController.stream.transform(createTransformer()).debounceTime(const Duration(milliseconds: 300));
 
   ReturnType get value => _value.value;
-  FieldStatus get status => _status.value;
-  String get errorMessage => _errorMessage.value;
+  FieldStatus get status => _status.hasValue ?_status.value:FieldStatus.empty;
+  String get errorMessage => _errorMessage.hasValue?_errorMessage.value:"";
 
   String get label => labelName ?? fieldName;
 
@@ -106,6 +106,7 @@ class FormFieldController<InputType, ReturnType> extends Equatable {
             errorMessage: '',
           ));
           _value.add(objAfterVal);
+          _status.add(FieldStatus.valid);
           // You might want to handle the status outside of this function based on the validation result.
         } catch (error) {
           sink.addError('Invalid ${ReturnType.runtimeType}: ${error.toString()}');

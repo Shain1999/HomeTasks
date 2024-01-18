@@ -13,60 +13,54 @@ class SecondStepFormState extends ChildStepFormState {
     this.step = CurrentStep.step2,
     this.status = ChildStepFormStatus.initial,
     this.errorMessage,
-    FormFieldController<DateTime, DateTime>? dueDateField,
-    FormFieldController<DateTime, DateTime>? estimatedTimeField,
-    FormFieldController<TaskReminders,TaskReminders>? reminderField,
-    FormFieldController<TaskReccuring,TaskReccuring>? reccuringField
+    DateTime? dueDateField,
+    this.estimatedTimeField=const Duration(hours: 1),
+    this.reminderField = TaskReminders.none,
+    this.reccuringField = TaskReccuring.none
   })
-    :dueDateField =dueDateField ?? FormFieldController<DateTime, DateTime>(
-      validateFunction: validateDateTime,
-    fieldName: 'dueDate'),
-    estimatedTimeField =estimatedTimeField ?? FormFieldController<DateTime, DateTime>(
-        validateFunction: validateDateTime,
-    fieldName: 'estimatedTime'),
-    reminderField =reminderField ?? FormFieldController<TaskReminders,TaskReminders>(
-        validateFunction: validateGenericTypes,
-    fieldName: 'reminders',labelName: 'reminder'),
-    reccuringField =reccuringField ?? FormFieldController<TaskReccuring,TaskReccuring>(
-        validateFunction: validateGenericTypes,
-    fieldName: 'reccuring'),
-
-
+      :dueDateField=dueDateField ?? DateTime.now().add(const Duration(hours: 1)),
         super();
   final CurrentStep step;
   final ChildStepFormStatus status;
-  final FormFieldController<DateTime, DateTime>? dueDateField;
-  final FormFieldController<DateTime, DateTime>? estimatedTimeField;
-  final FormFieldController<TaskReminders,TaskReminders>? reminderField;
-  final FormFieldController<TaskReccuring,TaskReccuring>? reccuringField;
+  final DateTime dueDateField;
+  final Duration estimatedTimeField;
+  final TaskReminders reminderField;
+  final TaskReccuring reccuringField;
   final String? errorMessage;
 
   @override
   SecondStepFormState copyWith({
-
     ChildStepFormStatus Function()? status,
-    FormFieldController<DateTime, DateTime> Function()? dueDateField,
-    FormFieldController<DateTime, DateTime>Function()? estimatedTimeField,
-    FormFieldController<TaskReminders,TaskReminders>Function()? reminderField,
-    FormFieldController<TaskReccuring,TaskReccuring>Function()? reccuringField,
-    String? errorMessage
+    DateTime Function()? dueDateField,
+    Duration Function()? estimatedTimeField,
+    TaskReminders Function()? reminderField,
+    TaskReccuring Function()? reccuringField,
+    String? errorMessage,
   }) {
     return SecondStepFormState(
-        status: status != null ? status() : this.status,
-        errorMessage: errorMessage ?? this.errorMessage,
-        dueDateField: dueDateField != null ? dueDateField() : this.dueDateField,
-        estimatedTimeField: estimatedTimeField != null ? estimatedTimeField() : this.estimatedTimeField,
-        reminderField: reminderField != null ? reminderField() : this.reminderField,
-        reccuringField: reccuringField != null ? reccuringField() : this.reccuringField,
-        step: this.step
+      status: status != null ? status() : this.status,
+      errorMessage: errorMessage ?? this.errorMessage,
+      dueDateField: dueDateField != null ? dueDateField() : this.dueDateField,
+      estimatedTimeField: estimatedTimeField != null
+          ? estimatedTimeField()
+          : this.estimatedTimeField,
+      reminderField: reminderField != null ? reminderField() : this.reminderField,
+      reccuringField: reccuringField != null ? reccuringField() : this.reccuringField,
+      step: this.step,
     );
   }
+  bool get isFormValid=>
+      dueDateField!=null &&
+          estimatedTimeField != null&&
+          reminderField != TaskReminders.none &&
+          reccuringField != TaskReccuring.none;
+
   Map<String, dynamic> getCurrentValuesToMap() {
     return {
-      'dueDate': dueDateField?.value,
-      'estimatedTime': estimatedTimeField?.value,
-      'reminders': reminderField?.value,
-      'reccuring': reccuringField?.value,
+      'dueDate': dueDateField,
+      'estimatedTime': estimatedTimeField,
+      'reminders': reminderField,
+      'reccuring': reccuringField,
     };
   }
 
@@ -80,5 +74,4 @@ class SecondStepFormState extends ChildStepFormState {
         reminderField,
         errorMessage
       ];
-
 }

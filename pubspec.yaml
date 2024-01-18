@@ -33,6 +33,7 @@ dependencies:
   json_annotation: ^4.8.1
   freezed: ^2.4.6
   rxdart: ^0.27.2
+  gap: ^3.0.1
 
 dev_dependencies:
   flutter_test:
