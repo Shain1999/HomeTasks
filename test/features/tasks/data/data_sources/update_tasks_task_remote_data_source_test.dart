@@ -25,7 +25,7 @@ void main() {
       dueDate: DateTime.now(),
       createdOn: DateTime.now(),
       modifiedOn: DateTime.now(),
-      estimatedTime: DateTime.now(),
+      estimatedTime:  Duration(hours: 1),
       assignedUserUids: ['user1', 'user2'],
       completedByUserUids: ['user3', 'user4'],
       notes: ['Note 1', 'Note 2'],

@@ -49,8 +49,8 @@ void main() {
       final formState = FirstStepFormState(
         titleField: FormFieldController<String, Title>(validateFunction: validateStringToTitle, fieldName: 'title'),
         descriptionField: FormFieldController<String, Description.Description>(validateFunction: validateStringToDescription, fieldName: 'description'),
-        categoryField: FormFieldController<TaskCategory, TaskCategory>(validateFunction: validateGenericTypes, fieldName: 'category'),
-        priorityField: FormFieldController<TaskPriority, TaskPriority>(validateFunction: validateGenericTypes, fieldName: 'priority'),
+        categoryField: TaskCategory.none,
+        priorityField: TaskPriority.none
       );
       List<FormFieldModel<Title>> successEventsEmitted=[];
       List<String> errorEvents=[];
@@ -66,15 +66,13 @@ void main() {
       });
       formState.titleField?.changeValue('Test Title');
       formState.descriptionField?.changeValue('Test Description');
-      formState.categoryField?.changeValue(TaskCategory.shopping);
-      formState.priorityField?.changeValue(TaskPriority.high);
+
       await Future.delayed(Duration(milliseconds: 500));
       final valuesMap = formState.getCurrentValuesToMap();
 
       expect(valuesMap['title'], 'Test Title');
        expect(valuesMap['description'], 'Test Description');
-       expect(valuesMap['category'], TaskCategory.shopping);
-       expect(valuesMap['priority'], TaskPriority.high);
+
     });
   });
 }

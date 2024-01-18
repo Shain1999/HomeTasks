@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hometasks/src/core/routes/router.dart';
 import 'package:hometasks/src/core/services/bloc_observer.dart';
 import 'package:hometasks/src/core/services/dependency_injection_container.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
+import 'package:hometasks/src/features/users/data/local/models/user_local_model.dart';
+import 'package:hometasks/src/features/users/data/remote/models/user_model.dart';
 import 'firebase_options.dart';
 
 import 'src/core/services/dependency_injection_container.dart' as di;
@@ -19,6 +21,9 @@ Future<void> bootstrap(AppBuilder builder) async {
   Bloc.observer=BlocObserverWrapper();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await di.initDependencies();
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserModelLocalAdapter());
+  await Hive.openBox<UserModel>('userBox');
   runApp(await builder());
 }
 
