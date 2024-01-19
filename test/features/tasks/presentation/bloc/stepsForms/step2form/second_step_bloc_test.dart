@@ -66,7 +66,7 @@ void main() {
     blocTest<SecondStepBloc, SecondStepFormState>(
       'emits [UpdateEstimatedTimeEvent.change] when UpdateEstimatedTimeEvent is added',
       build: () => secondStepBloc,
-      act: (bloc) => bloc.add(UpdateEstimatedTimeEvent(Duration(hours: 6))),
+      act: (bloc) => bloc.add(const UpdateEstimatedTimeEvent(Duration(hours: 6))),
       expect: () => [isA<SecondStepFormState>().having(
             (state) => state.estimatedTimeField,
         'estimatedTimeField',

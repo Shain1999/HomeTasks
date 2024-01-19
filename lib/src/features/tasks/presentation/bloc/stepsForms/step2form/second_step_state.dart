@@ -1,9 +1,6 @@
-import 'package:hometasks/src/features/tasks/domain/entities/form/form_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_recurring.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_reminders.dart';
-import 'package:hometasks/src/features/tasks/domain/validators/due_date_validator.dart';
-import 'package:hometasks/src/features/tasks/domain/validators/regular_validator.dart';
-import 'package:hometasks/src/features/tasks/domain/validators/title_validator.dart';
 import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_state.dart';
@@ -63,6 +60,7 @@ class SecondStepFormState extends ChildStepFormState {
       'reccuring': reccuringField,
     };
   }
+
 
   @override
   List<Object?> get props =>

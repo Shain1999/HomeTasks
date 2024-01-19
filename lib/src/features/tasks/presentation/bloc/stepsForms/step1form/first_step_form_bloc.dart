@@ -1,4 +1,9 @@
 import 'package:bloc/src/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart';
+import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/description/description.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart' as TitleValueObject;
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_event.dart';
@@ -71,6 +76,22 @@ class FirstStepBloc extends Bloc<MainFormEvent,FirstStepFormState> implements IC
     ));
     _mainFormBloc.add(OnStepSuccess(step: state.step,values: state.getCurrentValuesToMap()));
   }
+  @visibleForTesting
+  Future<void> OnStepSubmitTest() async {
+
+    emit(state.copyWith(
+      status: ()=>ChildStepFormStatus.loading,
+      // Update other properties as needed
+    ));
+  }
+  @visibleForTesting
+  Future<void> OnStepSuccessTest() async{
+    emit(state.copyWith(
+      status: ()=>ChildStepFormStatus.success,
+      // Update other properties as needed
+    ));
+  }
+
 
 
 }

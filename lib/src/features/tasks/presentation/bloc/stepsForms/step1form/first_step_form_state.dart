@@ -3,7 +3,6 @@ import 'package:hometasks/src/features/tasks/domain/entities/form/form_field.dar
 import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
 import 'package:hometasks/src/features/tasks/domain/validators/description_validator.dart';
-import 'package:hometasks/src/features/tasks/domain/validators/regular_validator.dart';
 import 'package:hometasks/src/features/tasks/domain/validators/title_validator.dart';
 import 'package:hometasks/src/features/tasks/domain/valueObjects/description/description.dart';
 import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart';
@@ -97,5 +96,6 @@ class FirstStepFormState extends ChildStepFormState {
         priorityField,
         errorMessage
       ];
+
 
 }
