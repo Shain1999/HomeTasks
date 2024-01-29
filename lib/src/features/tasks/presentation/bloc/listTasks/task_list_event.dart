@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/get_task_params_model.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
 import 'package:hometasks/src/features/tasks/presentation/filters/task_view_filter.dart';
 

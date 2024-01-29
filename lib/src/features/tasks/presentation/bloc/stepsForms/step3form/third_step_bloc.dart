@@ -1,10 +1,7 @@
-
-
-
-
 import 'package:bloc/src/bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_event.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step3form/third_step_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step3form/third_step_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_state.dart';
@@ -15,8 +12,38 @@ class ThirdStepBloc extends Bloc<MainFormEvent,ThirdStepFormState> implements IC
     on<OnStepSubmit>(OnStepSubmitFunc);
     on<OnStepFailure>(OnStepFailureFunc);
     on<OnStepSuccess>(OnStepSuccessFunc);
+    on<UpdateAssignedUserUidList>(_updateAssignedUserUidList);
+    on<UpdateNotesList>(_updateNotesList);
+    on<UpdateCommentsList>(_updateCommentsList);
   }
+  @override
+  Future<void> close() {
+    // Close any resources here
 
+    // Close the stream
+    return super.close();
+  }
+  Future<void> _updateAssignedUserUidList(
+      UpdateAssignedUserUidList event, Emitter<ThirdStepFormState> emit) async {
+    // Handle updating due date logic
+    emit(state.copyWith(
+      assignedUserUidsField: () => event.newList,
+    ));
+  }
+  Future<void> _updateNotesList(
+      UpdateNotesList event, Emitter<ThirdStepFormState> emit) async {
+    // Handle updating due date logic
+    emit(state.copyWith(
+      notesField: () => event.newList,
+    ));
+  }
+  Future<void> _updateCommentsList(
+      UpdateCommentsList event, Emitter<ThirdStepFormState> emit) async {
+    // Handle updating due date logic
+    emit(state.copyWith(
+      commentsField: () => event.newList,
+    ));
+  }
   @override
   Future<void> OnStepFailureFunc(OnStepFailure event, Emitter<ChildStepFormState> emit) async {
     // Handle step failure logic for step 3

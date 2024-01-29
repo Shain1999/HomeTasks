@@ -14,7 +14,7 @@ void main() {
   group('ThirdStepFormBloc', () {
     blocTest<ThirdStepBloc, ThirdStepFormState>(
       'emits [ChildStepFormStatus.loading] when OnStepSubmit is added',
-      build: () => ThirdStepBloc(),
+      build: () => ThirdStepBloc(mainFormBloc: null),
       act: (bloc) => bloc.add(OnStepSubmit(step: CurrentStep.step2)),
       expect: () =>
       [ isA<ChildStepFormState>().having(

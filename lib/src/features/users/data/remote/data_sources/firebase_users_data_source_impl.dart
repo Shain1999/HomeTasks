@@ -7,14 +7,15 @@ import 'package:hometasks/src/features/users/data/remote/data_sources/firebase_u
 import 'package:hometasks/src/features/users/data/remote/models/user_model.dart';
 
 class FirebaseUserDataSourceImpl implements FirebaseUserDataSource {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore;
+  FirebaseUserDataSourceImpl({required this.firestore});
 
   @override
   Future<Result<List<UserModel>>> getUsers() async {
     try {
-      QuerySnapshot querySnapshot = await _firestore.collection('users').get();
+      QuerySnapshot querySnapshot = await firestore.collection('users').get();
 
-      return Result.success(value:querySnapshot.docs.map((doc) => UserModel.fromSnapshot(doc)).toList());
+      return Result<List<UserModel>>.success(value:querySnapshot.docs.map((doc) => UserModel.fromSnapshot(doc)).toList());
     } catch (error) {
       return Result<List<UserModel>>.failure(message: error.toString(),internalCode:'firebase.getUsers',serverError: ServerError.create(ServerErrorType.internalServerError) );
     }
@@ -23,7 +24,7 @@ class FirebaseUserDataSourceImpl implements FirebaseUserDataSource {
   @override
   Future<Result<UserModel?>> getUserById(String userId) async {
     try {
-      DocumentSnapshot documentSnapshot = await _firestore.collection('users').doc(userId).get();
+      DocumentSnapshot documentSnapshot = await firestore.collection('users').doc(userId).get();
 
       if (!documentSnapshot.exists) {
         return Result<UserModel?>.failure(message: 'userNotFound',internalCode:'firebase.getUserById',serverError: ServerError.create(ServerErrorType.notFound) );
@@ -37,7 +38,7 @@ class FirebaseUserDataSourceImpl implements FirebaseUserDataSource {
   @override
   Future<Result> addUser(UserModel user) async {
     try {
-      await _firestore.collection('users').doc(user.id).set({
+      await firestore.collection('users').doc(user.id).set({
         'id': user.id,
         'email': user.email,
         'name': user.name,
@@ -52,7 +53,7 @@ class FirebaseUserDataSourceImpl implements FirebaseUserDataSource {
   @override
   Future<Result> updateUser(String userId, UserModel updatedUser) async {
     try {
-      await _firestore.collection('users').doc(userId).update({
+      await firestore.collection('users').doc(userId).update({
         'name': updatedUser.name,
         'photoURL': updatedUser.photoURL,
       });
@@ -65,7 +66,7 @@ class FirebaseUserDataSourceImpl implements FirebaseUserDataSource {
   @override
   Future<Result> deleteUser(String userId) async {
     try {
-      await _firestore.collection('users').doc(userId).delete();
+      await firestore.collection('users').doc(userId).delete();
       return Result.success();
 
 

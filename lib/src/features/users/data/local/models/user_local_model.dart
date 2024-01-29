@@ -12,11 +12,15 @@ class UserModelLocal {
   final String email;
 
   @HiveField(2)
-  final String displayName;
+  final String name;
+
+  @HiveField(3)
+  final String photoURL;
 
   UserModelLocal({
     required this.id,
     required this.email,
-    required this.displayName,
+    required this.name,
+    required this.photoURL,
   });
 }

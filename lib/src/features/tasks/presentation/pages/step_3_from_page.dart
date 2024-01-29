@@ -10,11 +10,13 @@ import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainFo
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step3form/third_step_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step3form/third_step_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step3form/third_step_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/widgets/form_field_widget.dart';
-import 'package:hometasks/src/features/tasks/presentation/widgets/users_selection_dropdown.dart';
+import 'package:hometasks/src/features/tasks/presentation/widgets/task_comments_widget.dart';
+import 'package:hometasks/src/features/users/presentation/widgets/users_selection_dropdown.dart';
 
 
 
@@ -38,7 +40,7 @@ class AdditionalInfoForm extends StatelessWidget {
           children: [
             _AssignedUsersUidsInput(),
             const SizedBox(height: 12.0),
-            // _DescriptionInput(),
+            _CommentsInput(),
             const SizedBox(height: 12.0),
             // _TaskCategoryInput(),
             const SizedBox(height: 12.0),
@@ -61,10 +63,36 @@ class _AssignedUsersUidsInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThirdStepBloc, ThirdStepFormState>(
-      buildWhen: (previous, current) => previous.assignedUserUidsField != current.assignedUserUidsField,
+      buildWhen: (previous, current) =>
+      previous.assignedUserUidsField != current.assignedUserUidsField,
       builder: (context, state) {
-        if (state.assignedUserUidsField!=null) {
-          return UserSelectionDropdown(formFieldController: state.assignedUserUidsField!);
+        if (state.assignedUserUidsField != null) {
+          return UserSelectionDropdown(onChangeHandler: (value) {
+            context.read<ThirdStepBloc>().add(
+              UpdateAssignedUserUidList(value!),
+            );
+          },);
+        } else {
+          return Center();
+        }
+      },
+
+    );
+  }
+}
+class _CommentsInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThirdStepBloc, ThirdStepFormState>(
+      buildWhen: (previous, current) =>
+      previous.commentsField != current.commentsField,
+      builder: (context, state) {
+        if (state.commentsField != null) {
+          return CommentWidget(onChangeHandler: (value) {
+            context.read<ThirdStepBloc>().add(
+              UpdateAssignedUserUidList(value!),
+            );
+          });
         } else {
           return Center();
         }

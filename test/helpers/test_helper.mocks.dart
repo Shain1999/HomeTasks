@@ -3,23 +3,24 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i11;
+import 'dart:async' as _i12;
 
 import 'package:cloud_firestore/cloud_firestore.dart' as _i3;
+import 'package:hive/hive.dart' as _i22;
 import 'package:hometasks/src/core/response/response.dart' as _i5;
 import 'package:hometasks/src/core/results/result.dart' as _i2;
 import 'package:hometasks/src/features/tasks/data/data_sources/firesbase_task_data_source.dart'
-    as _i17;
+    as _i18;
 import 'package:hometasks/src/features/tasks/data/models/task_model.dart'
-    as _i16;
+    as _i17;
 import 'package:hometasks/src/features/tasks/data/repositories/task_remote_data_source.dart'
-    as _i15;
+    as _i16;
 import 'package:hometasks/src/features/tasks/domain/entities/get_task_params_model.dart'
-    as _i13;
-import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart'
-    as _i12;
-import 'package:hometasks/src/features/tasks/domain/entities/update_task_params.dart'
     as _i14;
+import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart'
+    as _i13;
+import 'package:hometasks/src/features/tasks/domain/entities/update_task_params.dart'
+    as _i15;
 import 'package:hometasks/src/features/tasks/domain/repositories/firebase_task_repository_domain.dart'
     as _i4;
 import 'package:hometasks/src/features/tasks/domain/usecases/add_task_use_case.dart'
@@ -31,10 +32,21 @@ import 'package:hometasks/src/features/tasks/domain/usecases/get_task_by_id_use_
 import 'package:hometasks/src/features/tasks/domain/usecases/get_tasks_use_case.dart'
     as _i6;
 import 'package:hometasks/src/features/tasks/domain/usecases/tasks_use_cases.dart'
-    as _i18;
+    as _i19;
 import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_case.dart'
     as _i8;
+import 'package:hometasks/src/features/users/data/remote/data_sources/firebase_users_data_source_impl.dart'
+    as _i24;
+import 'package:hometasks/src/features/users/data/remote/models/user_model.dart'
+    as _i25;
+import 'package:hometasks/src/features/users/domain/entities/user_entity.dart'
+    as _i21;
+import 'package:hometasks/src/features/users/domain/repositories/user_repository.dart'
+    as _i11;
+import 'package:hometasks/src/features/users/domain/use_cases/get_users_use_case.dart'
+    as _i20;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i23;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -146,6 +158,17 @@ class _FakeGetTaskByIdUseCase_8 extends _i1.SmartFake
         );
 }
 
+class _FakeUserRepository_9 extends _i1.SmartFake
+    implements _i11.UserRepository {
+  _FakeUserRepository_9(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [DomainFirebaseTaskRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -156,123 +179,123 @@ class MockDomainFirebaseTaskRepository extends _i1.Mock
   }
 
   @override
-  _i11.Stream<List<_i12.Task>> getTasksStream(_i13.GetTaskParams? params) =>
+  _i12.Stream<List<_i13.Task>> getTasksStream(_i14.GetTaskParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTasksStream,
           [params],
         ),
-        returnValue: _i11.Stream<List<_i12.Task>>.empty(),
-      ) as _i11.Stream<List<_i12.Task>>);
+        returnValue: _i12.Stream<List<_i13.Task>>.empty(),
+      ) as _i12.Stream<List<_i13.Task>>);
 
   @override
-  _i11.Future<_i2.Result<dynamic>> addTask(_i12.Task? task) =>
+  _i12.Future<_i2.Result<dynamic>> addTask(_i13.Task? task) =>
       (super.noSuchMethod(
         Invocation.method(
           #addTask,
           [task],
         ),
         returnValue:
-            _i11.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
           this,
           Invocation.method(
             #addTask,
             [task],
           ),
         )),
-      ) as _i11.Future<_i2.Result<dynamic>>);
+      ) as _i12.Future<_i2.Result<dynamic>>);
 
   @override
-  _i11.Future<_i2.Result<dynamic>> updateTask(
-          _i14.UpdateTaskParams? updateParams) =>
+  _i12.Future<_i2.Result<dynamic>> updateTask(
+          _i15.UpdateTaskParams? updateParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateTask,
           [updateParams],
         ),
         returnValue:
-            _i11.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
           this,
           Invocation.method(
             #updateTask,
             [updateParams],
           ),
         )),
-      ) as _i11.Future<_i2.Result<dynamic>>);
+      ) as _i12.Future<_i2.Result<dynamic>>);
 
   @override
-  _i11.Future<_i2.Result<dynamic>> deleteTask(String? id) =>
+  _i12.Future<_i2.Result<dynamic>> deleteTask(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteTask,
           [id],
         ),
         returnValue:
-            _i11.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
           this,
           Invocation.method(
             #deleteTask,
             [id],
           ),
         )),
-      ) as _i11.Future<_i2.Result<dynamic>>);
+      ) as _i12.Future<_i2.Result<dynamic>>);
 
   @override
-  _i11.Future<_i2.Result<_i12.Task>> getTaskById(String? id) =>
+  _i12.Future<_i2.Result<_i13.Task>> getTaskById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTaskById,
           [id],
         ),
         returnValue:
-            _i11.Future<_i2.Result<_i12.Task>>.value(_FakeResult_0<_i12.Task>(
+            _i12.Future<_i2.Result<_i13.Task>>.value(_FakeResult_0<_i13.Task>(
           this,
           Invocation.method(
             #getTaskById,
             [id],
           ),
         )),
-      ) as _i11.Future<_i2.Result<_i12.Task>>);
+      ) as _i12.Future<_i2.Result<_i13.Task>>);
 }
 
 /// A class which mocks [TaskDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTaskDataSource extends _i1.Mock implements _i15.TaskDataSource {
+class MockTaskDataSource extends _i1.Mock implements _i16.TaskDataSource {
   MockTaskDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i11.Stream<List<_i16.TaskModel>> getTasksStreamAsync(
-          _i13.GetTaskParams? params) =>
+  _i12.Stream<List<_i17.TaskModel>> getTasksStreamAsync(
+          _i14.GetTaskParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTasksStreamAsync,
           [params],
         ),
-        returnValue: _i11.Stream<List<_i16.TaskModel>>.empty(),
-      ) as _i11.Stream<List<_i16.TaskModel>>);
+        returnValue: _i12.Stream<List<_i17.TaskModel>>.empty(),
+      ) as _i12.Stream<List<_i17.TaskModel>>);
 
   @override
-  _i11.Future<_i2.Result<dynamic>> addTask(_i16.TaskModel? task) =>
+  _i12.Future<_i2.Result<dynamic>> addTask(_i17.TaskModel? task) =>
       (super.noSuchMethod(
         Invocation.method(
           #addTask,
           [task],
         ),
         returnValue:
-            _i11.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
           this,
           Invocation.method(
             #addTask,
             [task],
           ),
         )),
-      ) as _i11.Future<_i2.Result<dynamic>>);
+      ) as _i12.Future<_i2.Result<dynamic>>);
 
   @override
-  _i11.Future<_i2.Result<dynamic>> updateTask(
+  _i12.Future<_i2.Result<dynamic>> updateTask(
     String? taskId,
     Map<String, dynamic>? updatedFields,
   ) =>
@@ -285,7 +308,7 @@ class MockTaskDataSource extends _i1.Mock implements _i15.TaskDataSource {
           ],
         ),
         returnValue:
-            _i11.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
           this,
           Invocation.method(
             #updateTask,
@@ -295,48 +318,48 @@ class MockTaskDataSource extends _i1.Mock implements _i15.TaskDataSource {
             ],
           ),
         )),
-      ) as _i11.Future<_i2.Result<dynamic>>);
+      ) as _i12.Future<_i2.Result<dynamic>>);
 
   @override
-  _i11.Future<_i2.Result<dynamic>> deleteTask(String? id) =>
+  _i12.Future<_i2.Result<dynamic>> deleteTask(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteTask,
           [id],
         ),
         returnValue:
-            _i11.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
           this,
           Invocation.method(
             #deleteTask,
             [id],
           ),
         )),
-      ) as _i11.Future<_i2.Result<dynamic>>);
+      ) as _i12.Future<_i2.Result<dynamic>>);
 
   @override
-  _i11.Future<_i2.Result<_i16.TaskModel>> getTaskById(String? id) =>
+  _i12.Future<_i2.Result<_i17.TaskModel>> getTaskById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTaskById,
           [id],
         ),
-        returnValue: _i11.Future<_i2.Result<_i16.TaskModel>>.value(
-            _FakeResult_0<_i16.TaskModel>(
+        returnValue: _i12.Future<_i2.Result<_i17.TaskModel>>.value(
+            _FakeResult_0<_i17.TaskModel>(
           this,
           Invocation.method(
             #getTaskById,
             [id],
           ),
         )),
-      ) as _i11.Future<_i2.Result<_i16.TaskModel>>);
+      ) as _i12.Future<_i2.Result<_i17.TaskModel>>);
 }
 
 /// A class which mocks [FirebaseTaskDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFirebaseTaskDataSource extends _i1.Mock
-    implements _i17.FirebaseTaskDataSource {
+    implements _i18.FirebaseTaskDataSource {
   MockFirebaseTaskDataSource() {
     _i1.throwOnMissingStub(this);
   }
@@ -351,52 +374,52 @@ class MockFirebaseTaskDataSource extends _i1.Mock
       ) as _i3.FirebaseFirestore);
 
   @override
-  _i11.Stream<List<_i16.TaskModel>> getTasksStreamAsync(
-          _i13.GetTaskParams? params) =>
+  _i12.Stream<List<_i17.TaskModel>> getTasksStreamAsync(
+          _i14.GetTaskParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTasksStreamAsync,
           [params],
         ),
-        returnValue: _i11.Stream<List<_i16.TaskModel>>.empty(),
-      ) as _i11.Stream<List<_i16.TaskModel>>);
+        returnValue: _i12.Stream<List<_i17.TaskModel>>.empty(),
+      ) as _i12.Stream<List<_i17.TaskModel>>);
 
   @override
-  _i11.Future<_i2.Result<dynamic>> addTask(_i16.TaskModel? task) =>
+  _i12.Future<_i2.Result<dynamic>> addTask(_i17.TaskModel? task) =>
       (super.noSuchMethod(
         Invocation.method(
           #addTask,
           [task],
         ),
         returnValue:
-            _i11.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
           this,
           Invocation.method(
             #addTask,
             [task],
           ),
         )),
-      ) as _i11.Future<_i2.Result<dynamic>>);
+      ) as _i12.Future<_i2.Result<dynamic>>);
 
   @override
-  _i11.Future<_i2.Result<dynamic>> deleteTask(String? id) =>
+  _i12.Future<_i2.Result<dynamic>> deleteTask(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteTask,
           [id],
         ),
         returnValue:
-            _i11.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
           this,
           Invocation.method(
             #deleteTask,
             [id],
           ),
         )),
-      ) as _i11.Future<_i2.Result<dynamic>>);
+      ) as _i12.Future<_i2.Result<dynamic>>);
 
   @override
-  _i11.Future<_i2.Result<dynamic>> updateTask(
+  _i12.Future<_i2.Result<dynamic>> updateTask(
     String? taskId,
     Map<String, dynamic>? updatedFields,
   ) =>
@@ -409,7 +432,7 @@ class MockFirebaseTaskDataSource extends _i1.Mock
           ],
         ),
         returnValue:
-            _i11.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
           this,
           Invocation.method(
             #updateTask,
@@ -419,24 +442,24 @@ class MockFirebaseTaskDataSource extends _i1.Mock
             ],
           ),
         )),
-      ) as _i11.Future<_i2.Result<dynamic>>);
+      ) as _i12.Future<_i2.Result<dynamic>>);
 
   @override
-  _i11.Future<_i2.Result<_i16.TaskModel>> getTaskById(String? id) =>
+  _i12.Future<_i2.Result<_i17.TaskModel>> getTaskById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getTaskById,
           [id],
         ),
-        returnValue: _i11.Future<_i2.Result<_i16.TaskModel>>.value(
-            _FakeResult_0<_i16.TaskModel>(
+        returnValue: _i12.Future<_i2.Result<_i17.TaskModel>>.value(
+            _FakeResult_0<_i17.TaskModel>(
           this,
           Invocation.method(
             #getTaskById,
             [id],
           ),
         )),
-      ) as _i11.Future<_i2.Result<_i16.TaskModel>>);
+      ) as _i12.Future<_i2.Result<_i17.TaskModel>>);
 }
 
 /// A class which mocks [GetTasksUseCase].
@@ -457,14 +480,14 @@ class MockGetTasksUseCase extends _i1.Mock implements _i6.GetTasksUseCase {
       ) as _i4.DomainFirebaseTaskRepository);
 
   @override
-  _i11.Stream<List<_i12.Task>> handle(_i13.GetTaskParams? params) =>
+  _i12.Stream<List<_i13.Task>> handle(_i14.GetTaskParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #handle,
           [params],
         ),
-        returnValue: _i11.Stream<List<_i12.Task>>.empty(),
-      ) as _i11.Stream<List<_i12.Task>>);
+        returnValue: _i12.Stream<List<_i13.Task>>.empty(),
+      ) as _i12.Stream<List<_i13.Task>>);
 }
 
 /// A class which mocks [UpdateTaskUseCase].
@@ -485,22 +508,22 @@ class MockUpdateTaskUseCase extends _i1.Mock implements _i8.UpdateTaskUseCase {
       ) as _i4.DomainFirebaseTaskRepository);
 
   @override
-  _i11.Future<_i5.Response<dynamic>> handle(
-          _i14.UpdateTaskParams? updateParams) =>
+  _i12.Future<_i5.Response<dynamic>> handle(
+          _i15.UpdateTaskParams? updateParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #handle,
           [updateParams],
         ),
         returnValue:
-            _i11.Future<_i5.Response<dynamic>>.value(_FakeResponse_3<dynamic>(
+            _i12.Future<_i5.Response<dynamic>>.value(_FakeResponse_3<dynamic>(
           this,
           Invocation.method(
             #handle,
             [updateParams],
           ),
         )),
-      ) as _i11.Future<_i5.Response<dynamic>>);
+      ) as _i12.Future<_i5.Response<dynamic>>);
 }
 
 /// A class which mocks [DeleteTaskUseCase].
@@ -521,20 +544,20 @@ class MockDeleteTaskUseCase extends _i1.Mock implements _i9.DeleteTaskUseCase {
       ) as _i4.DomainFirebaseTaskRepository);
 
   @override
-  _i11.Future<_i5.Response<dynamic>> handle(String? id) => (super.noSuchMethod(
+  _i12.Future<_i5.Response<dynamic>> handle(String? id) => (super.noSuchMethod(
         Invocation.method(
           #handle,
           [id],
         ),
         returnValue:
-            _i11.Future<_i5.Response<dynamic>>.value(_FakeResponse_3<dynamic>(
+            _i12.Future<_i5.Response<dynamic>>.value(_FakeResponse_3<dynamic>(
           this,
           Invocation.method(
             #handle,
             [id],
           ),
         )),
-      ) as _i11.Future<_i5.Response<dynamic>>);
+      ) as _i12.Future<_i5.Response<dynamic>>);
 }
 
 /// A class which mocks [AddTaskUseCase].
@@ -555,21 +578,21 @@ class MockAddTaskUseCase extends _i1.Mock implements _i7.AddTaskUseCase {
       ) as _i4.DomainFirebaseTaskRepository);
 
   @override
-  _i11.Future<_i5.Response<_i12.Task>> handle(_i12.Task? task) =>
+  _i12.Future<_i5.Response<_i13.Task>> handle(_i13.Task? task) =>
       (super.noSuchMethod(
         Invocation.method(
           #handle,
           [task],
         ),
-        returnValue: _i11.Future<_i5.Response<_i12.Task>>.value(
-            _FakeResponse_3<_i12.Task>(
+        returnValue: _i12.Future<_i5.Response<_i13.Task>>.value(
+            _FakeResponse_3<_i13.Task>(
           this,
           Invocation.method(
             #handle,
             [task],
           ),
         )),
-      ) as _i11.Future<_i5.Response<_i12.Task>>);
+      ) as _i12.Future<_i5.Response<_i13.Task>>);
 }
 
 /// A class which mocks [GetTaskByIdUseCase].
@@ -591,27 +614,27 @@ class MockGetTaskByIdUseCase extends _i1.Mock
       ) as _i4.DomainFirebaseTaskRepository);
 
   @override
-  _i11.Future<_i5.Response<_i12.Task>> handle(String? id) =>
+  _i12.Future<_i5.Response<_i13.Task>> handle(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #handle,
           [id],
         ),
-        returnValue: _i11.Future<_i5.Response<_i12.Task>>.value(
-            _FakeResponse_3<_i12.Task>(
+        returnValue: _i12.Future<_i5.Response<_i13.Task>>.value(
+            _FakeResponse_3<_i13.Task>(
           this,
           Invocation.method(
             #handle,
             [id],
           ),
         )),
-      ) as _i11.Future<_i5.Response<_i12.Task>>);
+      ) as _i12.Future<_i5.Response<_i13.Task>>);
 }
 
 /// A class which mocks [TaskUseCases].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockTaskUseCases extends _i1.Mock implements _i18.TaskUseCases {
+class MockTaskUseCases extends _i1.Mock implements _i19.TaskUseCases {
   MockTaskUseCases() {
     _i1.throwOnMissingStub(this);
   }
@@ -660,4 +683,512 @@ class MockTaskUseCases extends _i1.Mock implements _i18.TaskUseCases {
           Invocation.getter(#getTaskById),
         ),
       ) as _i10.GetTaskByIdUseCase);
+}
+
+/// A class which mocks [GetUsersUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetUsersUseCase extends _i1.Mock implements _i20.GetUsersUseCase {
+  MockGetUsersUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i11.UserRepository get userRepository => (super.noSuchMethod(
+        Invocation.getter(#userRepository),
+        returnValue: _FakeUserRepository_9(
+          this,
+          Invocation.getter(#userRepository),
+        ),
+      ) as _i11.UserRepository);
+
+  @override
+  _i12.Future<_i2.Result<List<_i21.UserEntity>>> call() => (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [],
+        ),
+        returnValue: _i12.Future<_i2.Result<List<_i21.UserEntity>>>.value(
+            _FakeResult_0<List<_i21.UserEntity>>(
+          this,
+          Invocation.method(
+            #call,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<List<_i21.UserEntity>>>);
+}
+
+/// A class which mocks [UserRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUserRepository extends _i1.Mock implements _i11.UserRepository {
+  MockUserRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i12.Future<_i2.Result<List<_i21.UserEntity>>> getUsers() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUsers,
+          [],
+        ),
+        returnValue: _i12.Future<_i2.Result<List<_i21.UserEntity>>>.value(
+            _FakeResult_0<List<_i21.UserEntity>>(
+          this,
+          Invocation.method(
+            #getUsers,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<List<_i21.UserEntity>>>);
+
+  @override
+  _i12.Future<_i2.Result<_i21.UserEntity?>> getUserById(String? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUserById,
+          [userId],
+        ),
+        returnValue: _i12.Future<_i2.Result<_i21.UserEntity?>>.value(
+            _FakeResult_0<_i21.UserEntity?>(
+          this,
+          Invocation.method(
+            #getUserById,
+            [userId],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<_i21.UserEntity?>>);
+
+  @override
+  _i12.Future<_i2.Result<dynamic>> addUser(_i21.UserEntity? user) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addUser,
+          [user],
+        ),
+        returnValue:
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+          this,
+          Invocation.method(
+            #addUser,
+            [user],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<dynamic>>);
+
+  @override
+  _i12.Future<_i2.Result<dynamic>> updateUser(
+    String? userId,
+    _i21.UserEntity? updatedUser,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateUser,
+          [
+            userId,
+            updatedUser,
+          ],
+        ),
+        returnValue:
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+          this,
+          Invocation.method(
+            #updateUser,
+            [
+              userId,
+              updatedUser,
+            ],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<dynamic>>);
+
+  @override
+  _i12.Future<_i2.Result<dynamic>> deleteUser(String? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteUser,
+          [userId],
+        ),
+        returnValue:
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+          this,
+          Invocation.method(
+            #deleteUser,
+            [userId],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<dynamic>>);
+}
+
+/// A class which mocks [Box].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockBox<E> extends _i1.Mock implements _i22.Box<E> {
+  MockBox() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  Iterable<E> get values => (super.noSuchMethod(
+        Invocation.getter(#values),
+        returnValue: <E>[],
+      ) as Iterable<E>);
+
+  @override
+  String get name => (super.noSuchMethod(
+        Invocation.getter(#name),
+        returnValue: _i23.dummyValue<String>(
+          this,
+          Invocation.getter(#name),
+        ),
+      ) as String);
+
+  @override
+  bool get isOpen => (super.noSuchMethod(
+        Invocation.getter(#isOpen),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool get lazy => (super.noSuchMethod(
+        Invocation.getter(#lazy),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  Iterable<dynamic> get keys => (super.noSuchMethod(
+        Invocation.getter(#keys),
+        returnValue: <dynamic>[],
+      ) as Iterable<dynamic>);
+
+  @override
+  int get length => (super.noSuchMethod(
+        Invocation.getter(#length),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  bool get isEmpty => (super.noSuchMethod(
+        Invocation.getter(#isEmpty),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool get isNotEmpty => (super.noSuchMethod(
+        Invocation.getter(#isNotEmpty),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  Iterable<E> valuesBetween({
+    dynamic startKey,
+    dynamic endKey,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #valuesBetween,
+          [],
+          {
+            #startKey: startKey,
+            #endKey: endKey,
+          },
+        ),
+        returnValue: <E>[],
+      ) as Iterable<E>);
+
+  @override
+  E? getAt(int? index) => (super.noSuchMethod(Invocation.method(
+        #getAt,
+        [index],
+      )) as E?);
+
+  @override
+  Map<dynamic, E> toMap() => (super.noSuchMethod(
+        Invocation.method(
+          #toMap,
+          [],
+        ),
+        returnValue: <dynamic, E>{},
+      ) as Map<dynamic, E>);
+
+  @override
+  dynamic keyAt(int? index) => super.noSuchMethod(Invocation.method(
+        #keyAt,
+        [index],
+      ));
+
+  @override
+  _i12.Stream<_i22.BoxEvent> watch({dynamic key}) => (super.noSuchMethod(
+        Invocation.method(
+          #watch,
+          [],
+          {#key: key},
+        ),
+        returnValue: _i12.Stream<_i22.BoxEvent>.empty(),
+      ) as _i12.Stream<_i22.BoxEvent>);
+
+  @override
+  bool containsKey(dynamic key) => (super.noSuchMethod(
+        Invocation.method(
+          #containsKey,
+          [key],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i12.Future<void> put(
+    dynamic key,
+    E? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #put,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> putAt(
+    int? index,
+    E? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #putAt,
+          [
+            index,
+            value,
+          ],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> putAll(Map<dynamic, E>? entries) => (super.noSuchMethod(
+        Invocation.method(
+          #putAll,
+          [entries],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+
+  @override
+  _i12.Future<int> add(E? value) => (super.noSuchMethod(
+        Invocation.method(
+          #add,
+          [value],
+        ),
+        returnValue: _i12.Future<int>.value(0),
+      ) as _i12.Future<int>);
+
+  @override
+  _i12.Future<Iterable<int>> addAll(Iterable<E>? values) => (super.noSuchMethod(
+        Invocation.method(
+          #addAll,
+          [values],
+        ),
+        returnValue: _i12.Future<Iterable<int>>.value(<int>[]),
+      ) as _i12.Future<Iterable<int>>);
+
+  @override
+  _i12.Future<void> delete(dynamic key) => (super.noSuchMethod(
+        Invocation.method(
+          #delete,
+          [key],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> deleteAt(int? index) => (super.noSuchMethod(
+        Invocation.method(
+          #deleteAt,
+          [index],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> deleteAll(Iterable<dynamic>? keys) => (super.noSuchMethod(
+        Invocation.method(
+          #deleteAll,
+          [keys],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> compact() => (super.noSuchMethod(
+        Invocation.method(
+          #compact,
+          [],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+
+  @override
+  _i12.Future<int> clear() => (super.noSuchMethod(
+        Invocation.method(
+          #clear,
+          [],
+        ),
+        returnValue: _i12.Future<int>.value(0),
+      ) as _i12.Future<int>);
+
+  @override
+  _i12.Future<void> close() => (super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> deleteFromDisk() => (super.noSuchMethod(
+        Invocation.method(
+          #deleteFromDisk,
+          [],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> flush() => (super.noSuchMethod(
+        Invocation.method(
+          #flush,
+          [],
+        ),
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
+}
+
+/// A class which mocks [FirebaseUserDataSourceImpl].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFirebaseUserDataSourceImpl extends _i1.Mock
+    implements _i24.FirebaseUserDataSourceImpl {
+  MockFirebaseUserDataSourceImpl() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.FirebaseFirestore get firestore => (super.noSuchMethod(
+        Invocation.getter(#firestore),
+        returnValue: _FakeFirebaseFirestore_1(
+          this,
+          Invocation.getter(#firestore),
+        ),
+      ) as _i3.FirebaseFirestore);
+
+  @override
+  _i12.Future<_i2.Result<List<_i25.UserModel>>> getUsers() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUsers,
+          [],
+        ),
+        returnValue: _i12.Future<_i2.Result<List<_i25.UserModel>>>.value(
+            _FakeResult_0<List<_i25.UserModel>>(
+          this,
+          Invocation.method(
+            #getUsers,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<List<_i25.UserModel>>>);
+
+  @override
+  _i12.Future<_i2.Result<_i25.UserModel?>> getUserById(String? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getUserById,
+          [userId],
+        ),
+        returnValue: _i12.Future<_i2.Result<_i25.UserModel?>>.value(
+            _FakeResult_0<_i25.UserModel?>(
+          this,
+          Invocation.method(
+            #getUserById,
+            [userId],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<_i25.UserModel?>>);
+
+  @override
+  _i12.Future<_i2.Result<dynamic>> addUser(_i25.UserModel? user) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addUser,
+          [user],
+        ),
+        returnValue:
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+          this,
+          Invocation.method(
+            #addUser,
+            [user],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<dynamic>>);
+
+  @override
+  _i12.Future<_i2.Result<dynamic>> updateUser(
+    String? userId,
+    _i25.UserModel? updatedUser,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateUser,
+          [
+            userId,
+            updatedUser,
+          ],
+        ),
+        returnValue:
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+          this,
+          Invocation.method(
+            #updateUser,
+            [
+              userId,
+              updatedUser,
+            ],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<dynamic>>);
+
+  @override
+  _i12.Future<_i2.Result<dynamic>> deleteUser(String? userId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteUser,
+          [userId],
+        ),
+        returnValue:
+            _i12.Future<_i2.Result<dynamic>>.value(_FakeResult_0<dynamic>(
+          this,
+          Invocation.method(
+            #deleteUser,
+            [userId],
+          ),
+        )),
+      ) as _i12.Future<_i2.Result<dynamic>>);
 }

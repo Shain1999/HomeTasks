@@ -10,24 +10,12 @@ class ThirdStepFormState extends ChildStepFormState {
     this.step = CurrentStep.step3,
     this.status = ChildStepFormStatus.initial,
     this.errorMessage,
-    FormFieldController<List<String>, List<String>>? assignedUserUidsField,
-    FormFieldController<List<String>, List<String>>? notesField,
-    FormFieldController<List<String>, List<String>>? commentsField,
+    this.assignedUserUidsField = const [],
+    this. notesField=const [],
+    this. commentsField=const [],
     FormFieldController<int, Score>? scoreField
   })
-      :assignedUserUidsField = assignedUserUidsField ??
-      FormFieldController<List<String>, List<String>>(
-          validateFunction: validateStringList,
-          labelName: 'Assigned Users',
-          fieldName: 'assignedUserUids'),
-        notesField = notesField ??
-            FormFieldController<List<String>, List<String>>(
-                validateFunction: validateStringList,
-                fieldName: 'notes'),
-        commentsField = commentsField ??
-            FormFieldController<List<String>, List<String>>(
-                validateFunction: validateStringList,
-                fieldName: 'comments'),
+      :
         scoreField = scoreField ??
             FormFieldController<int, Score>(
                 validateFunction: validateIntToScore,
@@ -35,9 +23,9 @@ class ThirdStepFormState extends ChildStepFormState {
         super();
   final CurrentStep step;
   final ChildStepFormStatus status;
-  final FormFieldController<List<String>, List<String>>? assignedUserUidsField;
-  final FormFieldController<List<String>, List<String>>? notesField;
-  final FormFieldController<List<String>, List<String>>? commentsField;
+  final List<String> assignedUserUidsField;
+  final List<String> notesField;
+  final List<String> commentsField;
   final FormFieldController<int, Score>? scoreField;
   final String? errorMessage;
 
@@ -45,9 +33,9 @@ class ThirdStepFormState extends ChildStepFormState {
   @override
   ThirdStepFormState copyWith({
     ChildStepFormStatus Function()? status,
-    FormFieldController<List<String>, List<String>>Function()? assignedUserUidsField,
-    FormFieldController<List<String>, List<String>>Function()? notesField,
-    FormFieldController<List<String>, List<String>>Function()? commentsField,
+    List<String>Function()? assignedUserUidsField,
+    List<String>Function()? notesField,
+    List<String>Function()? commentsField,
     FormFieldController<int, Score>Function()? scoreField,
     String? errorMessage
   }) {
@@ -67,9 +55,9 @@ class ThirdStepFormState extends ChildStepFormState {
 
   Map<String, dynamic> getCurrentValuesToMap() {
     return {
-      'assignedUserUids': assignedUserUidsField?.value,
-      'notes': notesField?.value,
-      'comments': commentsField?.value,
+      'assignedUserUids': assignedUserUidsField,
+      'notes': notesField,
+      'comments': commentsField,
       'score': scoreField?.value,
     };
   }
