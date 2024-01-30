@@ -65,6 +65,7 @@ class ThirdStepBloc extends Bloc<MainFormEvent,ThirdStepFormState> implements IC
       status: ()=>ChildStepFormStatus.loading,
       // Update other properties as needed
     ));
+    add(OnStepSuccess(step: state.step, values: state.getCurrentValuesToMap()));
   }
 
   @override
@@ -76,7 +77,7 @@ class ThirdStepBloc extends Bloc<MainFormEvent,ThirdStepFormState> implements IC
       status: ()=>ChildStepFormStatus.success,
       // Update other properties as needed
     ));
-    _mainFormBloc.add(OnStepSuccess(step: state.step,values: state.getCurrentValuesToMap()));
+    _mainFormBloc.add(OnStepSuccess(step: state.step,values:event.values ));
   }
 
 }

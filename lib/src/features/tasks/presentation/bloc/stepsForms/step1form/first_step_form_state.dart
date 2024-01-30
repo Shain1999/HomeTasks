@@ -79,8 +79,8 @@ class FirstStepFormState extends ChildStepFormState {
   // }
   Map<String, dynamic> getCurrentValuesToMap() {
     return {
-      'title': titleField?.value ?? '',
-      'description': descriptionField?.value ?? '',
+      'title': titleField?.value.value ?? '',
+      'description': descriptionField?.value.value ?? '',
       'category': categoryField ,
       'priority': priorityField ,
     };

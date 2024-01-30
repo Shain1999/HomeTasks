@@ -26,53 +26,72 @@ class _CommentWidgetState extends State<CommentWidget> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+
       children: [
-        ElevatedButton(
-          onPressed: _openCommentModal,
-          child: Text('Add Comment'),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Comments"),
+            ElevatedButton.icon(
+              icon: Icon(Icons.add),
+              onPressed: _openCommentModal,
+              label: Text("Add Comment"),
+            ),
+          ],
         ),
-        SizedBox(height: 16),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: comments.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(comments[index]),
-              onTap: () => _editComment(CommentOperationParams(newComment: comments[index], editedIndex: index)),
-              trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => _removeComment(index),
+         Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+
+              SizedBox(height: 16),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: comments.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(comments[index]),
+                    onTap: () => _editComment(CommentOperationParams(newComment: comments[index], editedIndex: index)),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () => _removeComment(index),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
+            ],
+          ),
       ],
     );
   }
 
   void _openCommentModal() {
-    _textEditingController.clear();
-    showModalBottomSheet(
+    if(!_isEditing){
+      _textEditingController.clear();
+    }
+    showDialog(
       context: context,
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                controller: _textEditingController,
-                decoration: InputDecoration(
-                  hintText: 'Enter your comment',
+        return AlertDialog(
+          content: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _textEditingController,
+                  decoration: InputDecoration(
+                    hintText: 'Enter your comment',
+                  ),
                 ),
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => _saveComment(CommentOperationParams(newComment: _textEditingController.text, editedIndex: -1)),
-                child: Text('Save'),
-              ),
-            ],
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () => _saveComment(CommentOperationParams(newComment: _textEditingController.text, editedIndex: _isEditing?_editedIndex:-1)),
+                  child: Text('Save'),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -82,10 +101,16 @@ class _CommentWidgetState extends State<CommentWidget> {
   void _saveComment(CommentOperationParams params) {
     if (params.editedIndex != -1) {
       comments[params.editedIndex] = params.newComment;
+      widget.onChangeHandler!(comments);
     } else {
       setState(() {
         comments.add(params.newComment);
         widget.onChangeHandler!(comments);
+      });
+    }
+    if(_isEditing){
+      setState(() {
+        _isEditing = false;
       });
     }
     Navigator.pop(context);

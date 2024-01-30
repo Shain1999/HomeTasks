@@ -13,7 +13,10 @@ class AddTaskStepper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+
+      appBar: AppBar(
+        title: Text("Add Task"),
+      ),
       body: BlocConsumer<MainFormBloc, MainFormState>(
           builder: (context, state) {
             return Stepper(

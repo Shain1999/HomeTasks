@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_state.dart';
+import 'package:hometasks/src/features/tasks/presentation/widgets/homePage/task_card.dart';
+import 'package:hometasks/src/features/tasks/presentation/widgets/homePage/task_list_widget.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -12,10 +13,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Title"), actions: [ElevatedButton(onPressed: () {
+
+      floatingActionButton:ElevatedButton(onPressed: () {
         context.goNamed('addTask');
-      }, child: Icon(Icons.add)), ElevatedButton(onPressed: () {
+      }, child: Icon(Icons.add)) ,
+      appBar: AppBar(
+        title: Text("Home"), actions: [ ElevatedButton(onPressed: () {
         context.read<TaskListBloc>().add(const OnGetTasks());
       }, child: Icon(Icons.refresh))
       ],),
@@ -34,13 +37,7 @@ class HomeScreen extends StatelessWidget {
           if (state.status == TasksViewStatus.success) {
             final tasks = state.tasks ?? [];
 
-            return ListView.builder(
-              itemCount: tasks.length,
-              itemBuilder: (context, index) {
-                final task = tasks[index];
-                return _buildTaskListTile(task);
-              },
-            );
+            return TaskListWidget(tasks);
           }
           return Container(); // Placeholder for other states if needed
         },
@@ -61,15 +58,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildTaskListTile(Task task) {
-    // Implement your custom list tile widget
-    return ListTile(
-      title: Text(task.title.value),
-      subtitle: Text(task.isCompleted ? "Completed" : "Ongoing"),
-      // Add more widgets as needed
-    );
-  }
-
-
 }

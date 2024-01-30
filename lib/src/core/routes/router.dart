@@ -11,7 +11,6 @@ import 'package:hometasks/src/features/tasks/presentation/bloc/editTask/task_edi
 import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_bloc.dart';
-import 'package:hometasks/src/features/tasks/presentation/pages/add_task_page.dart';
 import 'package:hometasks/src/features/tasks/presentation/pages/home_page.dart';
 import 'package:hometasks/src/core/services/dependency_injection_container.dart';
 import 'package:hometasks/src/features/tasks/presentation/pages/step_1_form_page.dart';

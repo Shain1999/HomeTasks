@@ -52,13 +52,14 @@ class ThirdStepFormState extends ChildStepFormState {
         scoreField: scoreField != null ? scoreField() : this.scoreField
     );
   }
+  bool get isFormValid => scoreField!.status == FieldStatus.valid;
 
   Map<String, dynamic> getCurrentValuesToMap() {
     return {
       'assignedUserUids': assignedUserUidsField,
       'notes': notesField,
       'comments': commentsField,
-      'score': scoreField?.value,
+      'score': scoreField?.value.value,
     };
   }
 

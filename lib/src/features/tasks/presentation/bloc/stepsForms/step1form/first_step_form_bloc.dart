@@ -1,8 +1,6 @@
 import 'package:bloc/src/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/task_category.dart';
-import 'package:hometasks/src/features/tasks/domain/entities/task_priority.dart';
-import 'package:hometasks/src/features/tasks/domain/valueObjects/description/description.dart';
+
 import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart' as TitleValueObject;
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_event.dart';

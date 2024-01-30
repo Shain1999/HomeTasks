@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/form/form_field.dart';
 import 'package:hometasks/src/features/tasks/domain/valueObjects/description/description.dart';
+import 'package:hometasks/src/features/tasks/domain/valueObjects/score/score.dart';
 import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dart' as TitleObj;
 import 'package:hometasks/src/features/tasks/presentation/bloc/addTask/task_add_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
@@ -16,6 +17,7 @@ import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFo
 import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/widgets/form_field_widget.dart';
 import 'package:hometasks/src/features/tasks/presentation/widgets/task_comments_widget.dart';
+import 'package:hometasks/src/features/tasks/presentation/widgets/task_notes_widget.dart';
 import 'package:hometasks/src/features/users/presentation/widgets/users_selection_dropdown.dart';
 
 
@@ -38,19 +40,19 @@ class AdditionalInfoForm extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _AssignedUsersUidsInput(),
+            _ScoreInput(),
             const SizedBox(height: 12.0),
             _CommentsInput(),
             const SizedBox(height: 12.0),
-            // _TaskCategoryInput(),
+            _NotesInput(),
             const SizedBox(height: 12.0),
-            // _TaskPriorityInput(),
+            _AssignedUsersUidsInput(),
             const SizedBox(height: 12.0),
             Row(
               children: [
-                // _SubmitButton(),
+                _SubmitButton(),
                 const SizedBox(width: 8.0),
-                // _CancelButton(),
+                _CancelButton(),
               ],
             ),
           ],
@@ -101,93 +103,89 @@ class _CommentsInput extends StatelessWidget {
     );
   }
 }
-// class _DescriptionInput extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<FirstStepBloc, FirstStepFormState>(
-//       buildWhen: (previous, current) =>
-//       previous.descriptionField != current.descriptionField,
-//       builder: (context, state) {
-//         if (state.descriptionField != null) {
-//           return stringFormField<String, Description>(
-//               formField: state.descriptionField);
-//         } else {
-//           return Center();
-//         }
-//       },
-//     );
-//   }
-// }
-// class _TaskCategoryInput extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<FirstStepBloc, FirstStepFormState>(
-//       buildWhen: (previous, current) =>
-//       previous.categoryField != current.categoryField,
-//       builder: (context, state) {
-//         if (state.categoryField != null) {
-//           return dropDownTaskCategoryFormField(
-//               formField: state.categoryField);
-//         } else {
-//           return Center();
-//         }
-//       },
-//     );
-//   }
-// }
-// class _TaskPriorityInput extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<FirstStepBloc, FirstStepFormState>(
-//       buildWhen: (previous, current) =>
-//       previous.priorityField != current.priorityField,
-//       builder: (context, state) {
-//         if (state.priorityField != null) {
-//           return dropDownTaskPriorityFormField(
-//               formField: state.priorityField);
-//         } else {
-//           return Center();
-//         }
-//       },
-//     );
-//   }
-// }
+class _NotesInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThirdStepBloc, ThirdStepFormState>(
+      buildWhen: (previous, current) =>
+      previous.notesField != current.notesField,
+      builder: (context, state) {
+        if (state.notesField != null) {
+          return NotesWidget(onChangeHandler: (value) {
+            context.read<ThirdStepBloc>().add(
+              UpdateNotesList(value!),
+            );
+          });
+        } else {
+          return Center();
+        }
+      },
 
-// class _SubmitButton extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<FirstStepBloc, FirstStepFormState>(
-//       buildWhen: (previous, current) => previous.status != current.status,
-//       builder: (context, state) {
-//         return state.isFormValid
-//             ? const CircularProgressIndicator()
-//             : ElevatedButton(
-//           key: const Key('generalInfoForm_submitButton_elevatedButton'),
-//           style: ElevatedButton.styleFrom(elevation: 0),
-//           onPressed: state.status == ChildStepFormStatus.valid
-//               ? () => context.read<FirstStepBloc>().add(OnStepSubmit(step: state.step))
-//               : null,
-//           child: const Text('SUBMIT'),
-//         );
-//       },
-//     );
-//   }
-// }
-//
-// class _CancelButton extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<FirstStepBloc, FirstStepFormState>(
-//       buildWhen: (previous, current) => previous.status != current.status,
-//       builder: (context, state) {
-//         return state.status == ChildStepFormStatus.loading
-//             ? const SizedBox.shrink()
-//             : TextButton(
-//           key: const Key('generalInfoForm_cancelButton_elevatedButton'),
-//           onPressed: () {},
-//           child: const Text('CANCEL'),
-//         );
-//       },
-//     );
-//   }
-// }
+    );
+  }
+}
+class _ScoreInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThirdStepBloc, ThirdStepFormState>(
+      buildWhen: (previous, current) => previous.scoreField != current.scoreField,
+      builder: (context, state) {
+        if (state.scoreField!=null) {
+          return intFormField<String,Score>(formField: state.scoreField);
+        } else {
+          return Center();
+        }
+      },
+
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThirdStepBloc, ThirdStepFormState>(
+      buildWhen: (previous, current) => previous.status != current.status || current!=null,
+      builder: (context, state){
+        if (state == null) {
+          return const CircularProgressIndicator();
+        }
+
+        return ElevatedButton(
+          key: const Key('additionalInfo_submitButton_elevatedButton'),
+          style: ElevatedButton.styleFrom(elevation: 0),
+          onPressed: state.isFormValid
+              ? () => context.read<ThirdStepBloc>().add(OnStepSubmit(step: state.step))
+              : null,
+          child: const Text('SUBMIT'),
+        );
+      },
+    );
+  }
+}
+
+
+class _CancelButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThirdStepBloc, ThirdStepFormState>(
+      buildWhen: (previous, current) => previous.status != current.status || current != null,
+      builder: (context, state) {
+        if (state == null) {
+          // Handle the case where the state is null (e.g., loading or initial state)
+          return const SizedBox.shrink();
+        }
+
+        return state.status == ChildStepFormStatus.loading
+            ? const SizedBox.shrink()
+            : TextButton(
+          key: const Key('additionalInfo_cancelButton_elevatedButton'),
+          onPressed: () {
+            // Handle cancel button action
+          },
+          child: const Text('CANCEL'),
+        );
+      },
+    );
+  }
+}

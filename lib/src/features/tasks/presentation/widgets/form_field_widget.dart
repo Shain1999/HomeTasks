@@ -22,6 +22,20 @@ Widget stringFormField<String, ReturnType>({required FormFieldController<String,
     },
   );
 }
+Widget intFormField<String, ReturnType>({required FormFieldController<int, ReturnType>? formField}) {
+  return StreamBuilder<FormFieldModel<ReturnType>>(
+    stream: formField?.valueStream,
+    builder: (context, snapshot) {
+      return TextField(decoration: InputDecoration(
+          labelText: formField?.label,
+          errorText: snapshot.hasError ? snapshot.error.toString() : null,
+        ),
+        onChanged:(value)=> formField?.changeValue(int.tryParse(value)),
+
+      );
+    },
+  );
+}
 Widget dropDownTaskCategoryFormField({
   required TaskCategory? taskCategory,
   required Function(TaskCategory?) onCategoryChanged,
