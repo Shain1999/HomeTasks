@@ -5,9 +5,9 @@ import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainFo
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step2form/second_step_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step3form/third_step_bloc.dart';
-import 'package:hometasks/src/features/tasks/presentation/pages/step_1_form_page.dart';
-import 'package:hometasks/src/features/tasks/presentation/pages/step_2_form_page.dart';
-import 'package:hometasks/src/features/tasks/presentation/pages/step_3_from_page.dart';
+import 'package:hometasks/src/features/tasks/presentation/pages/addTask/step_1_form_page.dart';
+import 'package:hometasks/src/features/tasks/presentation/pages/addTask/step_2_form_page.dart';
+import 'package:hometasks/src/features/tasks/presentation/pages/addTask/step_3_from_page.dart';
 
 class GeneralInfoFormBlocProvider extends StatelessWidget {
   const GeneralInfoFormBlocProvider({Key? key}) : super(key: key);

@@ -4,6 +4,7 @@ import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/update_task_params.dart';
 import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_case.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/editTask/task_edit_event.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/editTask/task_edit_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_state.dart';
@@ -11,10 +12,8 @@ import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_
 // class TaskEditBloc extends Bloc<TaskEditEvent,TaskEditState> {
 //   TaskEditBloc({
 //     required UpdateTaskUseCase updateTaskUseCase,
-//     required AddTaskUseCase addTaskUseCase
 //   })
 //       :
-//         _addTaskUseCase = addTaskUseCase,
 //         _updateTaskUseCase=updateTaskUseCase,
 //         super(TaskEditState()) {
 //     on<OnInitAdd>(_onInitAdd);
@@ -31,7 +30,6 @@ import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_
 //     return super.close();
 //   }
 //   final UpdateTaskUseCase _updateTaskUseCase;
-//   final AddTaskUseCase _addTaskUseCase;
 //
 //   Future<void> _onInitAdd(OnInitAdd event,
 //       Emitter<TaskEditState> emit)async {
@@ -87,7 +85,7 @@ class TaskEditBloc extends TaskBloc{
   }
   Future<void> OnInitEditFunc(OnInitEditEvent event,
       Emitter<TaskState> emit)async {
-    emit(state.copyWith(status: ()=>TaskStatus.initial,task: ()=>event.task));
+    emit(state.copyWith(status: ()=>TaskStatus.success,task: ()=>event.task));
   }
 
 

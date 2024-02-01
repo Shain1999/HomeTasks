@@ -6,12 +6,10 @@ import 'package:hometasks/src/features/tasks/domain/valueObjects/title/title.dar
 import 'package:hometasks/src/features/tasks/presentation/bloc/addTask/task_add_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_event.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_state.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/stepFormInterface/step_form_interface_state.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_event.dart';
 import 'package:hometasks/src/features/tasks/presentation/widgets/form_field_widget.dart';
 
 

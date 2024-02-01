@@ -36,6 +36,9 @@ class AdditionalInfoForm extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(const SnackBar(content: Text('Something went wrong!')));
         }
+        if(state.status==ChildStepFormStatus.success){
+
+        }
       },
       child: SingleChildScrollView(
         child: Column(

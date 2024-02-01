@@ -5,16 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hometasks/src/core/services/dependency_injection_container.dart';
 import 'package:hometasks/src/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
-import 'package:hometasks/src/features/tasks/domain/usecases/add_task_use_case.dart';
-import 'package:hometasks/src/features/tasks/domain/usecases/update_task_use_case.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/editTask/task_edit_bloc.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/listTasks/task_list_bloc.dart';
 import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/mainForm/main_form_bloc.dart';
-import 'package:hometasks/src/features/tasks/presentation/bloc/stepsForms/step1form/first_step_form_bloc.dart';
+import 'package:hometasks/src/features/tasks/presentation/pages/addTask/stepper_container_page.dart';
+import 'package:hometasks/src/features/tasks/presentation/pages/editTask/edit_task_page.dart';
 import 'package:hometasks/src/features/tasks/presentation/pages/home_page.dart';
-import 'package:hometasks/src/core/services/dependency_injection_container.dart';
-import 'package:hometasks/src/features/tasks/presentation/pages/step_1_form_page.dart';
-import 'package:hometasks/src/features/tasks/presentation/widgets/stepper_container_widget.dart';
 
 
 // GoRouter configuration
@@ -44,7 +39,19 @@ GoRouter createRouter(BuildContext context) {
               BlocProvider(create: (context) =>
                   sl.get<MainFormBloc>(),
                 child: const AddTaskStepper(),),
-     )
+     ),
+      GoRoute(
+        name: 'task',
+        path: '/task',
+        builder: (context, state) {
+          final task =state.extra as Task;
+          return BlocProvider(create: (context) =>
+              sl.get<TaskEditBloc>(),
+            child: EditTaskScreen(task: task,),);
+
+        }
+      )
+
     ],
     redirect: (context, state) {
       // You can still access currentUser here if needed

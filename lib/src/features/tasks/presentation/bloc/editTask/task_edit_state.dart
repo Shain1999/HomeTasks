@@ -1,24 +1,25 @@
 import 'package:equatable/equatable.dart';
 import 'package:hometasks/src/features/tasks/domain/entities/task_entity.dart';
+import 'package:hometasks/src/features/tasks/presentation/bloc/task/task_global_state.dart';
 
 
 enum TaskEditStatus { initial, loading, success, failure,error }
-final class TaskEditState extends Equatable {
+final class TaskEditState extends TaskState {
 const TaskEditState({
-this.status = TaskEditStatus.initial,
+this.status = TaskStatus.initial,
 this.updatedFields=const {},
 this.task,
 this.errorMessage
 });
 
-final TaskEditStatus status;
+final TaskStatus status;
 final String? errorMessage;
 final Task? task;
 final Map<String,dynamic> updatedFields;
 
 
 TaskEditState copyWith({
-TaskEditStatus Function()? status,
+  TaskStatus Function()? status,
 Task Function()? task,
 Map<String,dynamic> Function()? updatedFields,
 String? errorMessage

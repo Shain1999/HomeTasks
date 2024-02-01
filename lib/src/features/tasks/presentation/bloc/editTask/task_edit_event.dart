@@ -19,13 +19,6 @@ class OnFieldChanged extends TaskEditEvent{
   List<Object?> get props => [];
 }
 // when the user navigate to the new or edit screen init the state to fit the desired task
-class OnInitAdd extends TaskEditEvent{
-  const OnInitAdd();
-
-  @override
-  List<Object?> get props => [];
-}
-// when the user navigate to the new or edit screen init the state to fit the desired task
 class OnInitEditEvent extends TaskEditEvent{
   final Task task;
   const OnInitEditEvent({required this.task});

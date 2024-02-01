@@ -64,7 +64,6 @@ class MainFormBloc extends Bloc<MainFormEvent, MainFormState> {
       emit(state.copyWith(status: ()=>MainFormStatus.failure,errorMessage: response.message));
       return;
     }
-    emit(state.copyWith(status: ()=>MainFormStatus.success));
     add(const OnFormSubmitSuccess());
   }
 
@@ -77,7 +76,7 @@ class MainFormBloc extends Bloc<MainFormEvent, MainFormState> {
 
   Future<void> OnFormSubmitFailureFunc(OnFormSubmitFailure event,
       Emitter<MainFormState> emit) async {
-    emit(state.copyWith(status: () => MainFormStatus.success));
+    emit(state.copyWith(status: () => MainFormStatus.failure));
   }
 
 
